@@ -8,5 +8,5 @@ export default defineConfig({
     outDir: 'docs',
     emptyOutDir: true,
   },
-  base: '/blog/',  // GitHub Pagesの設定に合わせて /blog/ に変更
+  base: '/',  // サブドメインの場合はルートパスを使用
 }); 
