@@ -32,7 +32,10 @@ jobs:
         run: npm run build:articles
 
       - name: Build SPA
-        run: npm run build
+        run: |
+          rm -f docs/index.html
+          rm -rf docs/assets
+          npm run build
 
       - name: Configure Git
         run: |
