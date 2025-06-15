@@ -8,7 +8,7 @@
     },
     "scripts": {
         "dev": "vite",
-        "build:articles": "ts-node ./build-articles.ts",
+        "build:articles": "NODE_OPTIONS='--loader ts-node/esm' ts-node ./build-articles.ts",
         "build": "npm run build:articles && vite build --outDir docs",
         "preview": "vite preview --outDir docs",
         "lint": "eslint \"src/**/*.{ts,tsx}\" --max-warnings 0",

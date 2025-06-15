@@ -8,7 +8,7 @@ import "./index.css";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
-    <BrowserRouter basename="/blog">      {/* GitHub Pages 用 basename */}
+    <BrowserRouter>
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/posts/:year/:slug" element={<Post />} />
