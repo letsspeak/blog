@@ -1,0 +1,44 @@
+# Node modules
+node_modules/
+
+# Build output
+dist/
+docs/
+.vite/
+
+# Logs and temp
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+*.log
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Env
+.env
+.env.*
+
+# VSCode / JetBrains
+.vscode/
+.idea/
+
+# TypeScript cache
+*.tsbuildinfo
+
+# ESLint/Prettier
+.eslintcache
+
+# SASS / Tailwind JIT
+.sass-cache/
+.cache/
+
+# Optional: lockfile if using a different package manager
+# package-lock.json
+# yarn.lock
+# pnpm-lock.yaml
+
+# GitHub Actions artifacts (optional)
+*.local
