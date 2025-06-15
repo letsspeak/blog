@@ -13,21 +13,16 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20
+          cache: 'npm'
 
       - name: Install deps
         run: npm ci
 
       - name: Generate articles
-        run: |
-          npm run build:articles   # ts-node build-articles.ts 等
-      - name: Build SPA
-        run: |
-          npm run build           # Vite → dist/
+        run: npm run build:articles
 
-      - name: Move to docs
-        run: |
-          rm -rf docs
-          mv dist docs
+      - name: Build SPA
+        run: npm run build
 
       # gh-pages ブランチを使わず /docs を直接公開する設定なので
       # 「Upload Pages artifact」は不要
