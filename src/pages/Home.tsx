@@ -1,11 +1,11 @@
 // src/pages/Home.tsx
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 type Meta = { title: string; date: string; slug: string; path: string };
 
 export default function Home() {
   const [posts, setPosts] = useState<Meta[]>([]);
   useEffect(() => {
-    fetch("/blog/src/posts-index.json")
+    fetch("/posts-index.json")
       .then(r => r.json())
       .then(setPosts);
   }, []);
@@ -15,7 +15,7 @@ export default function Home() {
       <ul>
         {posts.map(p => (
           <li key={p.slug}>
-            <a href={`/blog/posts/${p.date.slice(0,7)}/${p.slug}`}>
+            <a href={`/posts/${p.date.slice(0,7)}/${p.slug}`}>
               {p.date} — {p.title}
             </a>
           </li>
