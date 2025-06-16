@@ -10,15 +10,15 @@ export default function Layout({ children }: LayoutProps) {
   const isHome = location.pathname === '/';
 
   return (
-    <div className="min-h-screen bg-white dark:bg-neutral-950">
+    <div className="min-h-screen bg-neutral-50">
       {/* ヘッダー */}
-      <header className="sticky top-0 z-50 bg-white/80 dark:bg-neutral-950/80 backdrop-blur-md border-b border-neutral-200 dark:border-neutral-800">
+      <header className="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b border-neutral-200 shadow-sm">
         <div className="max-w-4xl mx-auto px-6 py-4">
           <nav className="flex items-center justify-between">
             {/* ブログタイトル */}
             <Link
               to="/"
-              className="text-xl font-bold text-neutral-900 dark:text-neutral-100 hover:text-primary-600 dark:hover:text-primary-400 transition-colors"
+              className="text-xl font-bold text-neutral-900 hover:text-primary-600 transition-colors"
             >
               letsspeak's Tech Blog
             </Link>
@@ -29,8 +29,8 @@ export default function Layout({ children }: LayoutProps) {
                 to="/"
                 className={`font-medium transition-colors ${
                   isHome
-                    ? 'text-primary-600 dark:text-primary-400'
-                    : 'text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-neutral-100'
+                    ? 'text-primary-600'
+                    : 'text-neutral-600 hover:text-neutral-900'
                 }`}
               >
                 Home
@@ -54,9 +54,9 @@ export default function Layout({ children }: LayoutProps) {
       </main>
 
       {/* フッター */}
-      <footer className="border-t border-neutral-200 dark:border-neutral-800 mt-16">
+      <footer className="border-t border-neutral-200 mt-16 bg-white">
         <div className="max-w-4xl mx-auto px-6 py-8">
-          <div className="text-center text-neutral-500 dark:text-neutral-400">
+          <div className="text-center text-neutral-500">
             <p className="text-sm">
               © 2025 letsspeak's Tech Blog. Built with React + Vite, deployed on AWS.
             </p>

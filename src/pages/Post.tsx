@@ -65,7 +65,7 @@ export default function Post() {
     return (
       <Layout>
         <div className="flex items-center justify-center min-h-64">
-          <div className="text-neutral-500 dark:text-neutral-400">
+          <div className="text-neutral-500">
             記事を読み込み中...
           </div>
         </div>
@@ -77,10 +77,10 @@ export default function Post() {
     return (
       <Layout>
         <div className="text-center py-12">
-          <h1 className="text-2xl font-bold text-neutral-900 dark:text-neutral-100 mb-4">
+          <h1 className="text-2xl font-bold text-neutral-900 mb-4">
             記事が見つかりません
           </h1>
-          <p className="text-neutral-600 dark:text-neutral-400 mb-8">
+          <p className="text-neutral-600 mb-8">
             {error}
           </p>
           <Link 
@@ -98,11 +98,11 @@ export default function Post() {
     <Layout>
       <div className="max-w-3xl mx-auto">
         {/* 記事ヘッダー */}
-        <header className="mb-8 pb-8 border-b border-neutral-200 dark:border-neutral-800">
+        <header className="mb-8 pb-8 border-b border-neutral-200">
           <nav className="mb-6">
             <Link 
               to="/"
-              className="text-neutral-500 dark:text-neutral-400 hover:text-neutral-700 dark:hover:text-neutral-200 text-sm font-medium transition-colors"
+              className="text-neutral-500 hover:text-neutral-700 text-sm font-medium transition-colors"
             >
               ← すべての記事
             </Link>
@@ -110,11 +110,11 @@ export default function Post() {
           
           {meta && (
             <>
-              <h1 className="text-3xl font-bold text-neutral-900 dark:text-neutral-100 leading-tight mb-4">
+              <h1 className="text-3xl font-bold text-neutral-900 leading-tight mb-4">
                 {meta.title}
               </h1>
               
-              <div className="flex items-center text-neutral-500 dark:text-neutral-400 text-sm">
+              <div className="flex items-center text-neutral-500 text-sm">
                 <time dateTime={meta.date} className="font-medium">
                   {formatDate(meta.date)}
                 </time>
@@ -126,7 +126,7 @@ export default function Post() {
                       {meta.tags.map(tag => (
                         <span 
                           key={tag}
-                          className="bg-neutral-100 dark:bg-neutral-800 text-neutral-600 dark:text-neutral-300 px-2 py-1 rounded text-xs font-medium"
+                          className="bg-neutral-100 text-neutral-600 px-2 py-1 rounded text-xs font-medium"
                         >
                           {tag}
                         </span>
@@ -141,12 +141,12 @@ export default function Post() {
 
         {/* 記事本文 */}
         <article 
-          className="prose prose-neutral dark:prose-dark prose-lg max-w-none"
+          className="prose prose-neutral prose-lg max-w-none"
           dangerouslySetInnerHTML={{ __html: html }}
         />
 
         {/* 記事フッター */}
-        <footer className="mt-12 pt-8 border-t border-neutral-200 dark:border-neutral-800">
+        <footer className="mt-12 pt-8 border-t border-neutral-200">
           <Link 
             to="/"
             className="btn-secondary"
