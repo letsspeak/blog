@@ -1,0 +1,51 @@
+<svg width="600" height="400" viewBox="0 0 600 400" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <rect width="600" height="400" fill="#f8fafc"/>
+  
+  <!-- Title -->
+  <text x="300" y="30" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-size="20" font-weight="bold" fill="#1f2937">ブログアーキテクチャ</text>
+  
+  <!-- Markdown Files -->
+  <rect x="50" y="80" width="120" height="60" rx="8" fill="#3b82f6" stroke="#2563eb" stroke-width="2"/>
+  <text x="110" y="105" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-size="12" fill="white" font-weight="bold">Markdown</text>
+  <text x="110" y="120" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-size="12" fill="white">記事ファイル</text>
+  
+  <!-- Build Process -->
+  <rect x="230" y="80" width="120" height="60" rx="8" fill="#10b981" stroke="#059669" stroke-width="2"/>
+  <text x="290" y="105" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-size="12" fill="white" font-weight="bold">ビルド</text>
+  <text x="290" y="120" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-size="12" fill="white">プロセス</text>
+  
+  <!-- React App -->
+  <rect x="410" y="80" width="120" height="60" rx="8" fill="#8b5cf6" stroke="#7c3aed" stroke-width="2"/>
+  <text x="470" y="105" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-size="12" fill="white" font-weight="bold">React SPA</text>
+  <text x="470" y="120" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-size="12" fill="white">ウェブアプリ</text>
+  
+  <!-- AWS S3 -->
+  <rect x="150" y="220" width="120" height="60" rx="8" fill="#f59e0b" stroke="#d97706" stroke-width="2"/>
+  <text x="210" y="245" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-size="12" fill="white" font-weight="bold">AWS S3</text>
+  <text x="210" y="260" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-size="12" fill="white">静的ホスティング</text>
+  
+  <!-- CloudFront -->
+  <rect x="330" y="220" width="120" height="60" rx="8" fill="#ef4444" stroke="#dc2626" stroke-width="2"/>
+  <text x="390" y="245" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-size="12" fill="white" font-weight="bold">CloudFront</text>
+  <text x="390" y="260" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-size="12" fill="white">CDN配信</text>
+  
+  <!-- Users -->
+  <rect x="240" y="320" width="120" height="60" rx="8" fill="#6b7280" stroke="#4b5563" stroke-width="2"/>
+  <text x="300" y="345" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-size="12" fill="white" font-weight="bold">ユーザー</text>
+  <text x="300" y="360" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-size="12" fill="white">blog.lsklab.com</text>
+  
+  <!-- Arrows -->
+  <!-- Markdown to Build -->
+  <defs>
+    <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#4b5563" />
+    </marker>
+  </defs>
+  
+  <line x1="170" y1="110" x2="230" y2="110" stroke="#4b5563" stroke-width="2" marker-end="url(#arrowhead)"/>
+  <line x1="350" y1="110" x2="410" y2="110" stroke="#4b5563" stroke-width="2" marker-end="url(#arrowhead)"/>
+  <line x1="290" y1="140" x2="210" y2="220" stroke="#4b5563" stroke-width="2" marker-end="url(#arrowhead)"/>
+  <line x1="470" y1="140" x2="390" y2="220" stroke="#4b5563" stroke-width="2" marker-end="url(#arrowhead)"/>
+  <line x1="300" y1="280" x2="300" y2="320" stroke="#4b5563" stroke-width="2" marker-end="url(#arrowhead)"/>
+</svg>

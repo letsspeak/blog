@@ -1,0 +1,53 @@
+<svg width="500" height="300" viewBox="0 0 500 300" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background (dark terminal style) -->
+  <rect width="500" height="300" rx="8" fill="#1e1e1e"/>
+  
+  <!-- Header bar -->
+  <rect width="500" height="30" rx="8" fill="#2d2d30"/>
+  <rect y="30" width="500" height="270" fill="#1e1e1e"/>
+  
+  <!-- Traffic lights -->
+  <circle cx="20" cy="15" r="6" fill="#ff5f56"/>
+  <circle cx="40" cy="15" r="6" fill="#ffbd2e"/>
+  <circle cx="60" cy="15" r="6" fill="#27ca3f"/>
+  
+  <!-- Window title -->
+  <text x="250" y="20" text-anchor="middle" font-family="Monaco, Consolas, monospace" font-size="12" fill="#cccccc">React Component</text>
+  
+  <!-- Code content -->
+  <text x="20" y="60" font-family="Monaco, Consolas, monospace" font-size="12" fill="#569cd6">import</text>
+  <text x="70" y="60" font-family="Monaco, Consolas, monospace" font-size="12" fill="#cccccc">React</text>
+  <text x="120" y="60" font-family="Monaco, Consolas, monospace" font-size="12" fill="#569cd6">from</text>
+  <text x="160" y="60" font-family="Monaco, Consolas, monospace" font-size="12" fill="#ce9178">'react'</text>
+  <text x="210" y="60" font-family="Monaco, Consolas, monospace" font-size="12" fill="#cccccc">;</text>
+  
+  <text x="20" y="90" font-family="Monaco, Consolas, monospace" font-size="12" fill="#569cd6">export</text>
+  <text x="80" y="90" font-family="Monaco, Consolas, monospace" font-size="12" fill="#569cd6">default</text>
+  <text x="140" y="90" font-family="Monaco, Consolas, monospace" font-size="12" fill="#569cd6">function</text>
+  <text x="210" y="90" font-family="Monaco, Consolas, monospace" font-size="12" fill="#dcdcaa">BlogPost</text>
+  <text x="270" y="90" font-family="Monaco, Consolas, monospace" font-size="12" fill="#cccccc">() {</text>
+  
+  <text x="40" y="120" font-family="Monaco, Consolas, monospace" font-size="12" fill="#569cd6">return</text>
+  <text x="100" y="120" font-family="Monaco, Consolas, monospace" font-size="12" fill="#cccccc">(</text>
+  
+  <text x="60" y="150" font-family="Monaco, Consolas, monospace" font-size="12" fill="#cccccc">&lt;</text>
+  <text x="75" y="150" font-family="Monaco, Consolas, monospace" font-size="12" fill="#4ec9b0">div</text>
+  <text x="105" y="150" font-family="Monaco, Consolas, monospace" font-size="12" fill="#92c5f8">className</text>
+  <text x="170" y="150" font-family="Monaco, Consolas, monospace" font-size="12" fill="#cccccc">=</text>
+  <text x="185" y="150" font-family="Monaco, Consolas, monospace" font-size="12" fill="#ce9178">"prose"</text>
+  <text x="235" y="150" font-family="Monaco, Consolas, monospace" font-size="12" fill="#cccccc">&gt;</text>
+  
+  <text x="80" y="180" font-family="Monaco, Consolas, monospace" font-size="12" fill="#cccccc">&lt;</text>
+  <text x="95" y="180" font-family="Monaco, Consolas, monospace" font-size="12" fill="#4ec9b0">h1</text>
+  <text x="115" y="180" font-family="Monaco, Consolas, monospace" font-size="12" fill="#cccccc">&gt;技術ブログ&lt;/</text>
+  <text x="215" y="180" font-family="Monaco, Consolas, monospace" font-size="12" fill="#4ec9b0">h1</text>
+  <text x="235" y="180" font-family="Monaco, Consolas, monospace" font-size="12" fill="#cccccc">&gt;</text>
+  
+  <text x="60" y="210" font-family="Monaco, Consolas, monospace" font-size="12" fill="#cccccc">&lt;/</text>
+  <text x="80" y="210" font-family="Monaco, Consolas, monospace" font-size="12" fill="#4ec9b0">div</text>
+  <text x="105" y="210" font-family="Monaco, Consolas, monospace" font-size="12" fill="#cccccc">&gt;</text>
+  
+  <text x="40" y="240" font-family="Monaco, Consolas, monospace" font-size="12" fill="#cccccc">);</text>
+  
+  <text x="20" y="270" font-family="Monaco, Consolas, monospace" font-size="12" fill="#cccccc">}</text>
+</svg>
