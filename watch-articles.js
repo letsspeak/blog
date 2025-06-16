@@ -4,17 +4,62 @@ import { watch } from 'chokidar';
 import { spawn } from 'child_process';
 import { fileURLToPath } from 'url';
 import { dirname, join } from 'path';
+import { existsSync } from 'fs';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 console.log('📖 記事ファイルの監視を開始しています...');
 
-// 記事ディレクトリを監視
-const watcher = watch('articles/**/*.md', {
-  ignored: /(^|[\/\\])\../, // ドットファイルを無視
+// 記事ディレクトリが存在するか確認
+const articlesPath = join(__dirname, 'articles');
+console.log('📁 監視ディレクトリ:', articlesPath);
+console.log('📁 ディレクトリ存在確認:', existsSync(articlesPath));
+
+// 存在するファイルを確認
+import { readdirSync, statSync } from 'fs';
+
+function findMarkdownFiles(dir) {
+  const files = [];
+  try {
+    const items = readdirSync(dir);
+    for (const item of items) {
+      const fullPath = join(dir, item);
+      const stat = statSync(fullPath);
+      if (stat.isDirectory()) {
+        files.push(...findMarkdownFiles(fullPath));
+      } else if (item.endsWith('.md')) {
+        files.push(fullPath);
+      }
+    }
+  } catch (err) {
+    console.error('ディレクトリ読み取りエラー:', err);
+  }
+  return files;
+}
+
+const existingFiles = findMarkdownFiles(articlesPath);
+console.log('📄 見つかったMarkdownファイル:', existingFiles);
+
+// シンプルな監視設定
+const watcher = watch(articlesPath, {
+  ignored: /(^|[\/\\])\../,
   persistent: true,
-  ignoreInitial: true // 初期スキャンを無視
+  ignoreInitial: false,
+  usePolling: true,
+  interval: 1000,
+  depth: 10, // サブディレクトリの深度
+  awaitWriteFinish: {
+    stabilityThreshold: 300,
+    pollInterval: 100
+  }
+});
+
+// 監視準備完了
+watcher.on('ready', () => {
+  console.log('✅ 監視準備完了');
+  console.log('🔍 監視対象:', Object.keys(watcher.getWatched()));
+  console.log('📝 記事ファイルを編集すると自動的にビルドされます...\n');
 });
 
 let isBuilding = false;
@@ -51,22 +96,37 @@ function buildArticles() {
   });
 }
 
-// ファイル変更イベント
+// ファイル変更イベント（.mdファイルのみ対象）
 watcher
   .on('add', path => {
-    console.log(`📝 新しい記事ファイルが追加されました: ${path}`);
-    buildArticles();
+    if (path.endsWith('.md')) {
+      console.log(`\n📝 新しい記事ファイルが追加されました: ${path}`);
+      buildArticles();
+    }
   })
   .on('change', path => {
-    console.log(`📝 記事ファイルが変更されました: ${path}`);
-    buildArticles();
+    if (path.endsWith('.md')) {
+      console.log(`\n📝 記事ファイルが変更されました: ${path}`);
+      buildArticles();
+    }
   })
   .on('unlink', path => {
-    console.log(`🗑️  記事ファイルが削除されました: ${path}`);
-    buildArticles();
+    if (path.endsWith('.md')) {
+      console.log(`\n🗑️  記事ファイルが削除されました: ${path}`);
+      buildArticles();
+    }
+  })
+  .on('addDir', path => {
+    console.log(`📁 ディレクトリが追加されました: ${path}`);
+  })
+  .on('unlinkDir', path => {
+    console.log(`📁 ディレクトリが削除されました: ${path}`);
   })
   .on('error', error => {
     console.error('❌ ファイル監視エラー:', error);
+  })
+  .on('all', (event, path) => {
+    console.log(`🔍 イベント: ${event} - ${path}`);
   });
 
 console.log('📖 記事ファイルの変更を監視中...');
