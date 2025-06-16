@@ -8,6 +8,7 @@
     },
     "scripts": {
         "dev": "vite",
+        "dev:watch": "concurrently \"npm run dev\" \"node watch-articles.js\"",
         "build:articles": "NODE_OPTIONS='--loader ts-node/esm' ts-node ./build-articles.ts",
         "build": "vite build && npm run build:articles",
         "preview": "vite preview",
@@ -31,6 +32,8 @@
         "@typescript-eslint/parser": "^8.0.1",
         "@vitejs/plugin-react": "^4.5.2",
         "autoprefixer": "^10.4.19",
+        "chokidar": "^4.0.3",
+        "concurrently": "^9.1.2",
         "eslint": "^9.3.0",
         "eslint-config-prettier": "^10.1.0",
         "eslint-plugin-react": "^7.34.1",
