@@ -98,10 +98,30 @@ export default function Layout({ children }: LayoutProps) {
             </div>
 
             {/* コピーライト */}
-            <div className="text-center text-neutral-500">
+            <div className="text-center text-neutral-500 space-y-2">
               <p className="text-sm">
                 © 2025 letsspeak's Tech Blog. Built with React + Vite, deployed on AWS.
               </p>
+              <div className="flex items-center justify-center space-x-1 text-xs">
+                <span>Made with</span>
+                <a
+                  href="https://claude.ai/code"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="link text-primary-600 hover:text-primary-700 font-medium"
+                >
+                  Claude Code
+                </a>
+                <span>•</span>
+                <a
+                  href="https://github.com/letsspeak/blog"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="link text-primary-600 hover:text-primary-700 font-medium"
+                >
+                  View Source
+                </a>
+              </div>
             </div>
           </div>
         </div>
