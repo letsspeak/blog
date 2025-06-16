@@ -5,7 +5,7 @@ import { marked } from "marked";
 
 const SRC = "articles";
 const DST = "dist/articles";          // そのままコピー
-const INDEX = "src/posts-index.json"; // SPA が読むメタ情報
+const INDEX = "dist/posts-index.json"; // SPA が読むメタ情報
 
 type PostMeta = { title: string; date: string; slug: string; path: string };
 
