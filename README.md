@@ -161,13 +161,15 @@ public/
 │   ├── components/     # Reactコンポーネント
 │   ├── pages/         # ページコンポーネント
 │   └── main.tsx       # エントリーポイント
+├── scripts/           # ビルド・開発用スクリプト
+│   ├── build-articles.ts  # Markdown→HTML変換
+│   └── watch-articles.js  # ファイル監視
 ├── public/
 │   └── images/        # 画像ファイル
 ├── docs/
 │   ├── aws/           # AWS設定ファイル
 │   └── specifications/ # プロジェクト仕様
-├── dist/              # ビルド出力（S3にデプロイ）
-└── build-articles.ts  # Markdown→HTML変換スクリプト
+└── dist/              # ビルド出力（S3にデプロイ）
 ```
 
 ## 🎨 デザインシステム

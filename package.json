@@ -8,8 +8,8 @@
     },
     "scripts": {
         "dev": "vite",
-        "dev:watch": "concurrently \"npm run dev\" \"node watch-articles.js\"",
-        "build:articles": "NODE_OPTIONS='--loader ts-node/esm' ts-node ./build-articles.ts",
+        "dev:watch": "concurrently \"npm run dev\" \"node scripts/watch-articles.js\"",
+        "build:articles": "NODE_OPTIONS='--loader ts-node/esm' ts-node ./scripts/build-articles.ts",
         "build": "vite build && npm run build:articles",
         "preview": "vite preview",
         "lint": "eslint \"src/**/*.{ts,tsx}\" --max-warnings 0",

@@ -21,12 +21,13 @@ This is a static blog built as a React SPA with a custom Markdown processing pip
 
 ### Content Flow
 1. Markdown articles in `articles/YYYY-MM/` directories
-2. `build-articles.ts` processes Markdown → HTML and generates metadata
-3. React app fetches article list from `src/posts-index.json`
-4. Individual articles loaded as pre-built HTML from `dist/articles/`
+2. `scripts/build-articles.ts` processes Markdown → HTML and generates metadata
+3. React app fetches article list from `posts-index.json`
+4. Individual articles loaded as pre-built HTML from `articles/`
 
 ### Key Components
-- **Build Pipeline**: Custom TypeScript script (`build-articles.ts`) converts Markdown using `gray-matter` + `marked`
+- **Build Pipeline**: Custom TypeScript script (`scripts/build-articles.ts`) converts Markdown using `gray-matter` + `marked`
+- **File Watching**: Development script (`scripts/watch-articles.js`) monitors article changes for auto-rebuild
 - **Routing**: React Router handles `/` (home) and `/posts/:year/:slug` (articles)
 - **Content Strategy**: Hybrid approach - metadata as JSON, content as static HTML
 - **Deployment**: Builds to `dist/` directory, deployed to S3 + CloudFront with custom domain (blog.lsklab.com)
