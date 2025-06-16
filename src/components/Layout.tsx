@@ -73,7 +73,7 @@ export default function Layout({ children }: LayoutProps) {
               </a>
 
               <a
-                href="https://twitter.com/letsspeak_jp"
+                href="https://twitter.com/letsspeak"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center space-x-2 text-neutral-600 hover:text-neutral-900 transition-colors"
@@ -86,7 +86,7 @@ export default function Layout({ children }: LayoutProps) {
               </a>
 
               <a
-                href="mailto:contact@lsklab.com"
+                href="mailto:letsinfinite@gmail.com"
                 className="flex items-center space-x-2 text-neutral-600 hover:text-neutral-900 transition-colors"
                 aria-label="Email"
               >
