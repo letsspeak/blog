@@ -46,3 +46,6 @@ Thumbs.db
 
 # GitHub Actions artifacts (optional)
 *.local
+
+# Backup files
+*.backup
