@@ -23,13 +23,15 @@ blog/
 ├── src/
 │   ├── pages/
 │   └── main.tsx
+├── scripts/               # ビルド・開発用スクリプト
+│   ├── build-articles.ts  # Markdown → HTML/JSON 変換
+│   └── watch-articles.js  # ファイル監視
 ├── docs/
 │   └── specifications/    # プロジェクト仕様書
 ├── dist/                  # ← S3 に配信される成果物
 │   ├── index.html
 │   ├── assets/
 │   └── articles/
-├── build-articles.ts      # Markdown → HTML/JSON 変換
 ├── package.json
 └── .github/
     └── workflows/
