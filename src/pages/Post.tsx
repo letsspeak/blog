@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import Layout from "../components/Layout";
+import ShareButtons from "../components/ShareButtons";
 
 interface PostMeta {
   title: string;
@@ -145,8 +146,18 @@ export default function Post() {
           dangerouslySetInnerHTML={{ __html: html }}
         />
 
+        {/* シェアボタン */}
+        {meta && (
+          <div className="mt-8 pt-6 border-t border-neutral-200">
+            <ShareButtons 
+              title={meta.title}
+              url={window.location.href}
+            />
+          </div>
+        )}
+
         {/* 記事フッター */}
-        <footer className="mt-12 pt-8 border-t border-neutral-200">
+        <footer className="mt-8 pt-8 border-t border-neutral-200">
           <Link 
             to="/"
             className="btn-secondary"
