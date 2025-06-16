@@ -5,7 +5,7 @@ type Meta = { title: string; date: string; slug: string; path: string };
 export default function Home() {
   const [posts, setPosts] = useState<Meta[]>([]);
   useEffect(() => {
-    fetch("/src/posts-index.json")
+    fetch("/posts-index.json")
       .then(r => r.json())
       .then(setPosts);
   }, []);
