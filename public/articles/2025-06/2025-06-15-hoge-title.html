@@ -1,0 +1,39 @@
+<p>このブログで画像を使う方法を説明します。</p>
+<h2>画像の配置方法</h2>
+<h3>方法1: public/images/ フォルダに配置（推奨）</h3>
+<p>画像ファイルを <code>public/images/</code> フォルダに配置して、Markdownで以下のように記述します：</p>
+<pre><code class="language-markdown">![画像の説明文](/images/your-image.png)
+</code></pre>
+<h3>実際の例</h3>
+<p>以下は実際に配置した画像の例です：</p>
+<p><img src="/images/blog-architecture.svg" alt="ブログアーキテクチャ図"></p>
+<p><em>上記: このブログのシステム構成図</em></p>
+<h3>画像のサイズ指定</h3>
+<p>HTMLタグを使えばサイズも指定できます：</p>
+<img src="/images/code-example.svg" alt="コード例" width="400" />
+
+<p><em>上記: コード例のスクリーンショット（幅400px指定）</em></p>
+<h2>対応している画像形式</h2>
+<ul>
+<li><strong>PNG</strong> - スクリーンショット、透過画像に最適</li>
+<li><strong>JPEG</strong> - 写真に最適</li>
+<li><strong>SVG</strong> - ベクター画像、アイコンに最適</li>
+<li><strong>WebP</strong> - 高圧縮・高画質（モダンブラウザ対応）</li>
+</ul>
+<h2>画像を追加する手順</h2>
+<ol>
+<li>画像ファイルを <code>public/images/</code> フォルダに配置</li>
+<li>Markdownで <code>![説明文](/images/ファイル名.拡張子)</code> と記述</li>
+<li>ビルドして確認</li>
+</ol>
+<h3>ファイル名の注意点</h3>
+<ul>
+<li><strong>小文字</strong> + <strong>ハイフン区切り</strong> を推奨<ul>
+<li>❌ <code>MyScreenShot.PNG</code></li>
+<li>✅ <code>my-screenshot.png</code></li>
+</ul>
+</li>
+<li><strong>日本語ファイル名は避ける</strong> - URL で問題が起こる可能性</li>
+<li><strong>スペースは使わない</strong> - アンダースコアかハイフンを使用</li>
+</ul>
+<p>これで画像付きの技術ブログ記事が完成です！ </p>

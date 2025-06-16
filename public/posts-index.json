@@ -1,0 +1,14 @@
+[
+  {
+    "title": "ブログで画像を使う方法",
+    "date": "2025-06-15",
+    "slug": "2025-06-15-hoge-title",
+    "path": "2025-06/2025-06-15-hoge-title.html"
+  },
+  {
+    "title": "技術ブログ構築完了 - React + AWS + Claude Code での開発体験",
+    "date": "2025-06-16",
+    "slug": "2025-06-16-blog-setup-complete",
+    "path": "2025-06/2025-06-16-blog-setup-complete.html"
+  }
+]
