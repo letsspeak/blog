@@ -20,9 +20,10 @@ Thumbs.db
 .env
 .env.*
 
-# AWS credentials
+# AWS credentials (exclude templates - they should be committed)
 .env.aws.setup
 .env.aws.deploy
+!.env.aws.*.template
 
 # VSCode / JetBrains
 .vscode/
