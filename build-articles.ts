@@ -4,7 +4,7 @@ import matter from "gray-matter";
 import { marked } from "marked";
 
 const SRC = "articles";
-const DST = "docs/articles";          // そのままコピー
+const DST = "dist/articles";          // そのままコピー
 const INDEX = "src/posts-index.json"; // SPA が読むメタ情報
 
 type PostMeta = { title: string; date: string; slug: string; path: string };

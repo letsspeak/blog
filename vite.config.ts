@@ -5,7 +5,7 @@ import react from '@vitejs/plugin-react';
 export default defineConfig({
   plugins: [react()],
   build: {
-    outDir: 'docs',
+    outDir: 'dist',
     emptyOutDir: true,
   },
   base: '/',  // サブドメインの場合はルートパスを使用
