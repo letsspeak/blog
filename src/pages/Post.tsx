@@ -128,7 +128,7 @@ export default function Post() {
                       {meta.tags.map(tag => (
                         <span 
                           key={tag}
-                          className="bg-neutral-100 text-neutral-600 px-2 py-1 rounded text-xs font-medium"
+                          className="bg-neutral-100 text-neutral-600 px-2 py-1 rounded-sm text-xs font-medium"
                         >
                           {tag}
                         </span>

@@ -12,7 +12,7 @@ export default function Layout({ children }: LayoutProps) {
   return (
     <div className="min-h-screen bg-neutral-50">
       {/* ヘッダー */}
-      <header className="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b border-neutral-200 shadow-sm">
+      <header className="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b border-neutral-200 shadow-xs">
         <div className="max-w-4xl mx-auto px-6 py-4">
           <nav className="flex items-center justify-between">
             {/* ブログタイトル */}
