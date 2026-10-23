@@ -58,7 +58,8 @@
   <table>
     <tr><th>項目</th><th>状態</th></tr>
     <tr><td>本番サイト</td><td class="ok">正常。TLS 証明書は ACM で自動更新済み（期限 2027-05-02）</td></tr>
-    <tr><td>ローカル main</td><td class="warn">origin/main より先行。push するとデプロイが走る（下記「未完了」参照）</td></tr>
+    <tr><td>デプロイ</td><td class="ok">2026-10-23 に push 済み。Actions 成功、本番の JS/CSS ハッシュがローカルビルドと一致</td></tr>
+    <tr><td>gh CLI</td><td class="ok">再認証済み。Secrets 3 件の設定を確認</td></tr>
     <tr><td><code>npm run build</code> / <code>lint</code> / <code>typecheck</code></td><td class="ok">すべて成功</td></tr>
     <tr><td>依存関係</td><td class="ok">Vite 8 / React 19 / react-router 7 / Tailwind 4 / marked 18 / ESLint 9.39。脆弱性は moderate 2 件のみ（上流待ち）</td></tr>
     <tr><td>秘密情報の管理</td><td class="ok"><code>.env.aws*</code>（テンプレート以外）は gitignore 済み</td></tr>
@@ -66,19 +67,26 @@
 
   <h2>未完了</h2>
 
-  <section class="task" data-id="push">
-    <header><input type="checkbox"><h3>ローカルの変更を push して本番に反映する</h3><span class="badge b1">P1</span></header>
-    <p><span class="label">内容:</span>2026-10-23 のコミット群（記事の front-matter 修正、ESLint 復旧、依存更新、Tailwind 4 移行、CI 強化）。push すると Actions が lint → typecheck → build → S3 sync → CloudFront invalidate を実行する。</p>
-    <p><span class="label">確認:</span>push 後に <code>gh run watch</code> または Actions の画面で成功を確認し、<code>curl https://blog.lsklab.com/posts-index.json</code> で 2025-07-02 の記事にタイトルと tags が入っていること。</p>
+  <section class="task" data-id="iam-rotate">
+    <header><input type="checkbox"><h3>デプロイ用 IAM アクセスキーのローテーション（期限: 2026-11-30）</h3><span class="badge b1">P1</span></header>
+    <p><span class="label">背景:</span>GitHub Secrets の <code>AWS_ACCESS_KEY_ID</code> / <code>AWS_SECRET_ACCESS_KEY</code> は 2025-06-16 に設定されてから更新されていない。</p>
+    <p><span class="label">手順:</span></p>
+    <ul>
+      <li>IAM コンソールでデプロイ用ユーザーに新しいアクセスキーを発行する（古いキーはまだ残す）。</li>
+      <li><code>gh secret set AWS_ACCESS_KEY_ID -R letsspeak/blog</code> と <code>gh secret set AWS_SECRET_ACCESS_KEY -R letsspeak/blog</code> で新しい値を登録する（値は標準入力から渡し、履歴やこのファイルに残さない）。</li>
+      <li>空コミットか記事更新で Actions を 1 回走らせ、S3 同期と CloudFront 無効化が成功することを確認する。</li>
+      <li>古いキーを「無効化」し、数日問題がなければ削除する。</li>
+    </ul>
+    <p><span class="label">確認:</span><code>gh secret list -R letsspeak/blog</code> の更新日時が新しくなっていること。</p>
   </section>
 
-  <section class="task" data-id="gh-auth">
-    <header><input type="checkbox"><h3>gh CLI を再認証する</h3><span class="badge b2">P2</span></header>
-    <p><span class="label">現象:</span>保存されたトークンが無効（HTTP 401）で <code>gh run list</code> が失敗する。対話的なログインが必要なため未対応。</p>
-<pre><code>gh auth login -h github.com
-gh run list -R letsspeak/blog -L 10</code></pre>
-    <p><span class="label">合わせて:</span>GitHub の Settings → Secrets で <code>AWS_ACCESS_KEY_ID</code> / <code>AWS_SECRET_ACCESS_KEY</code> / <code>CLOUDFRONT_DISTRIBUTION_ID</code> が設定されていることと、デプロイ用 IAM ユーザーのキーのローテーション時期を確認する（値はこのファイルに書かない）。</p>
+  <section class="task" data-id="actions-node24">
+    <header><input type="checkbox"><h3>GitHub Actions のアクションを Node 24 対応版に更新する</h3><span class="badge b2">P2</span></header>
+    <p><span class="label">現象:</span>2026-10-23 のデプロイで「Node.js 20 is deprecated」の警告。<code>actions/checkout@v4</code>、<code>actions/setup-node@v4</code>、<code>aws-actions/configure-aws-credentials@v4</code> が対象。今は強制的に Node 24 で動いているが、いずれ失敗する可能性がある。</p>
+    <p><span class="label">対応:</span>各アクションを Node 24 対応のメジャーバージョン（checkout v5、setup-node v5、configure-aws-credentials v5）に上げてデプロイが通ることを確認する。あわせて <code>ubuntu-latest</code> が Ubuntu 26 に移行する告知も出ているため、問題があれば <code>ubuntu-24.04</code> に固定する。</p>
   </section>
+
+
 
   <section class="task" data-id="eslint10">
     <header><input type="checkbox"><h3>ESLint 10 への更新（上流待ち）</h3><span class="badge b3">P3</span></header>
@@ -101,6 +109,8 @@ gh run list -R letsspeak/blog -L 10</code></pre>
   </section>
 
   <h2>完了済み（2026-10-23）</h2>
+  <section class="task done"><header><input type="checkbox" checked disabled><h3>12 コミットを push し本番に反映。Actions（lint → typecheck → build → S3 → CloudFront）成功</h3><span class="badge bd">DONE</span></header></section>
+  <section class="task done"><header><input type="checkbox" checked disabled><h3>gh CLI を再認証し、Secrets 3 件とワークフローの有効状態を確認</h3><span class="badge bd">DONE</span></header></section>
   <section class="task done"><header><input type="checkbox" checked disabled><h3>2025-07-02 の記事に front-matter を追加。記事一覧に tags も出力されるよう修正</h3><span class="badge bd">DONE</span></header></section>
   <section class="task done"><header><input type="checkbox" checked disabled><h3>ESLint flat config を作成し lint を復旧。typecheck スクリプトを追加</h3><span class="badge bd">DONE</span></header></section>
   <section class="task done"><header><input type="checkbox" checked disabled><h3>古いビルド成果物と public/ の開発用コピーを git 管理から外し、CLAUDE.md を修正</h3><span class="badge bd">DONE</span></header></section>
