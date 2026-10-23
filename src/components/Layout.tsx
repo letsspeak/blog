@@ -1,6 +1,5 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import DesignSwitcher from './DesignSwitcher';
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -127,7 +126,6 @@ export default function Layout({ children }: LayoutProps) {
           </div>
         </div>
       </footer>
-      <DesignSwitcher />
     </div>
   );
 }

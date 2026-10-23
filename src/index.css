@@ -8,31 +8,32 @@ layer(base);
    テーマ（旧 tailwind.config.js の theme.extend を CSS ファーストで定義）
    --------------------------------------------------------------- */
 @theme {
-  /* 技術ブログ向けカラーパレット（目に優しい） */
-  --color-neutral-50: #fafafa;
-  --color-neutral-100: #f4f4f5;
-  --color-neutral-200: #e4e4e7;
-  --color-neutral-300: #d4d4d8;
-  --color-neutral-400: #a1a1aa;
-  --color-neutral-500: #71717a;
-  --color-neutral-600: #52525b;
-  --color-neutral-700: #3f3f46;
-  --color-neutral-800: #27272a;
-  --color-neutral-900: #18181b;
-  --color-neutral-950: #0a0a0a;
+  /* 紙を思わせる暖色のグレー（エディトリアル基調） */
+  --color-white: #fffdf8;
+  --color-neutral-50: #f7f2e8;
+  --color-neutral-100: #efe8da;
+  --color-neutral-200: #e2d8c4;
+  --color-neutral-300: #cfc3ab;
+  --color-neutral-400: #a4977f;
+  --color-neutral-500: #7d7060;
+  --color-neutral-600: #5c5144;
+  --color-neutral-700: #433a30;
+  --color-neutral-800: #2c251e;
+  --color-neutral-900: #1b1612;
+  --color-neutral-950: #0f0c0a;
 
-  /* アクセントカラー（技術的で落ち着いた青） */
-  --color-primary-50: #eff6ff;
-  --color-primary-100: #dbeafe;
-  --color-primary-200: #bfdbfe;
-  --color-primary-300: #93c5fd;
-  --color-primary-400: #60a5fa;
-  --color-primary-500: #3b82f6;
-  --color-primary-600: #2563eb;
-  --color-primary-700: #1d4ed8;
-  --color-primary-800: #1e40af;
-  --color-primary-900: #1e3a8a;
-  --color-primary-950: #172554;
+  /* アクセントカラー（えんじ） */
+  --color-primary-50: #faeef0;
+  --color-primary-100: #f3d6db;
+  --color-primary-200: #e7b2bb;
+  --color-primary-300: #d4858f;
+  --color-primary-400: #b8505f;
+  --color-primary-500: #9c3545;
+  --color-primary-600: #8b2635;
+  --color-primary-700: #6e1c29;
+  --color-primary-800: #571520;
+  --color-primary-900: #401018;
+  --color-primary-950: #2a0a10;
 
   /* コードハイライト用 */
   --color-code-bg: #1e1e1e;
@@ -250,150 +251,50 @@ layer(base);
   }
 }
 
-/* ===============================================================
-   デザイン検討用（2026-10 試作）
-   <html data-theme="warm|dark|editorial"> と <html data-dialogue="a|b|c">
-   で切り替える。プレビューの切り替えパネル（?design）から操作する。
-   =============================================================== */
-
-/* ---------- テーマ 1: ウォーム（stone + teal、ダークヘッダー） ---------- */
-:root[data-theme="warm"] {
-  --color-neutral-50: #fafaf9;
-  --color-neutral-100: #f5f5f4;
-  --color-neutral-200: #e7e5e4;
-  --color-neutral-300: #d6d3d1;
-  --color-neutral-400: #a8a29e;
-  --color-neutral-500: #78716c;
-  --color-neutral-600: #57534e;
-  --color-neutral-700: #44403c;
-  --color-neutral-800: #292524;
-  --color-neutral-900: #1c1917;
-  --color-primary-50: #f0fdfa;
-  --color-primary-100: #ccfbf1;
-  --color-primary-200: #99f6e4;
-  --color-primary-300: #5eead4;
-  --color-primary-400: #2dd4bf;
-  --color-primary-500: #14b8a6;
-  --color-primary-600: #0d9488;
-  --color-primary-700: #0f766e;
-}
-:root[data-theme="warm"] .site-header {
-  background: var(--color-neutral-900);
-  border-bottom: 0;
-  box-shadow: none;
-}
-:root[data-theme="warm"] .site-header a {
-  color: var(--color-neutral-50);
-}
-:root[data-theme="warm"] .site-header a:hover {
-  color: var(--color-primary-300);
-}
-:root[data-theme="warm"] main h1 {
-  position: relative;
-  padding-bottom: 0.6rem;
-}
-:root[data-theme="warm"] main h1::after {
-  content: "";
-  position: absolute;
-  left: 0;
-  bottom: 0;
-  width: 3rem;
-  height: 4px;
-  border-radius: 2px;
-  background: var(--color-primary-500);
-}
-:root[data-theme="warm"] .card {
-  border-left: 4px solid transparent;
-  transition: border-color 0.2s;
-}
-:root[data-theme="warm"] .card:hover {
-  border-left-color: var(--color-primary-500);
+/* ---------------------------------------------------------------
+   エディトリアル基調（2026-10 に採用）
+   紙色の背景、明朝の見出し、えんじのアクセント、罫線による区切り
+   --------------------------------------------------------------- */
+@layer base {
+  h1,
+  h2,
+  h3 {
+    font-family: "Hiragino Mincho ProN", "Yu Mincho", YuMincho, "Noto Serif JP", "BIZ UDPMincho", serif;
+    letter-spacing: 0.02em;
+  }
 }
 
-/* ---------- テーマ 2: ダーク ---------- */
-:root[data-theme="dark"] {
-  --color-white: #171a21;
-  --color-neutral-50: #0f1115;
-  --color-neutral-100: #171a21;
-  --color-neutral-200: #232733;
-  --color-neutral-300: #2f3442;
-  --color-neutral-400: #5b6170;
-  --color-neutral-500: #8a90a0;
-  --color-neutral-600: #a7adbb;
-  --color-neutral-700: #c5cad4;
-  --color-neutral-800: #dfe2e8;
-  --color-neutral-900: #f1f3f6;
-  --color-primary-50: #1a2236;
-  --color-primary-100: #22304d;
-  --color-primary-200: #2c3f66;
-  --color-primary-300: #3b5a9a;
-  --color-primary-400: #5f86d6;
-  --color-primary-500: #7aa2ff;
-  --color-primary-600: #8ab4ff;
-  --color-primary-700: #a9c7ff;
-  --color-code-bg: #0b0d12;
-  color-scheme: dark;
-}
-:root[data-theme="dark"] .site-header {
-  background: color-mix(in oklab, var(--color-neutral-50) 85%, transparent);
+@layer components {
+  .site-header {
+    background: var(--color-white);
+    border-bottom: 2px solid var(--color-neutral-900);
+    box-shadow: none;
+  }
+
+  .site-header a:first-child {
+    font-family: "Hiragino Mincho ProN", "Yu Mincho", YuMincho, "Noto Serif JP", serif;
+    letter-spacing: 0.08em;
+  }
+
+  main > div > h1,
+  main header h1 {
+    border-bottom: 1px solid var(--color-neutral-300);
+    padding-bottom: 0.75rem;
+  }
 }
 
-/* ---------- テーマ 3: エディトリアル（紙 + 明朝見出し + えんじ） ---------- */
-:root[data-theme="editorial"] {
-  --color-white: #fffdf8;
-  --color-neutral-50: #f7f2e8;
-  --color-neutral-100: #efe8da;
-  --color-neutral-200: #e2d8c4;
-  --color-neutral-300: #cfc3ab;
-  --color-neutral-400: #a4977f;
-  --color-neutral-500: #7d7060;
-  --color-neutral-600: #5c5144;
-  --color-neutral-700: #433a30;
-  --color-neutral-800: #2c251e;
-  --color-neutral-900: #1b1612;
-  --color-primary-50: #faeef0;
-  --color-primary-100: #f3d6db;
-  --color-primary-200: #e7b2bb;
-  --color-primary-300: #d4858f;
-  --color-primary-400: #b8505f;
-  --color-primary-500: #9c3545;
-  --color-primary-600: #8b2635;
-  --color-primary-700: #6e1c29;
-}
-:root[data-theme="editorial"] h1,
-:root[data-theme="editorial"] h2,
-:root[data-theme="editorial"] h3,
-:root[data-theme="editorial"] .card h3 {
-  font-family: "Hiragino Mincho ProN", "Yu Mincho", YuMincho, "Noto Serif JP", "BIZ UDPMincho", serif;
-  letter-spacing: 0.02em;
-}
-:root[data-theme="editorial"] .site-header {
-  background: var(--color-white);
-  border-bottom: 2px solid var(--color-neutral-900);
-  box-shadow: none;
-}
-:root[data-theme="editorial"] .site-header a:first-child {
-  font-family: "Hiragino Mincho ProN", "Yu Mincho", YuMincho, "Noto Serif JP", serif;
-  letter-spacing: 0.08em;
-}
-:root[data-theme="editorial"] main h1 {
-  border-bottom: 1px solid var(--color-neutral-300);
-  padding-bottom: 0.75rem;
-}
-:root[data-theme="editorial"] .card {
-  border: 0;
-  border-top: 1px solid var(--color-neutral-300);
-  border-radius: 0;
-  box-shadow: none;
-  background: transparent;
-}
-:root[data-theme="editorial"] .prose {
-  line-height: 1.95;
-}
-
-/* ---------- テーマ共通: 記事本文（prose）の色をテーマのパレットに追従させる ---------- */
 @layer utilities {
-  :root[data-theme] .prose {
+  /* カードは枠と影をやめ、罫線で区切る */
+  .card {
+    border: 0;
+    border-top: 1px solid var(--color-neutral-300);
+    border-radius: 0;
+    box-shadow: none;
+    background: transparent;
+  }
+
+  /* 記事本文の色をパレットに追従させる（prose-neutral の固定色を上書き） */
+  .prose {
     --tw-prose-body: var(--color-neutral-700);
     --tw-prose-headings: var(--color-neutral-900);
     --tw-prose-lead: var(--color-neutral-600);
@@ -408,119 +309,7 @@ layer(base);
     --tw-prose-code: var(--color-neutral-900);
     --tw-prose-th-borders: var(--color-neutral-300);
     --tw-prose-td-borders: var(--color-neutral-200);
+    line-height: 1.95;
   }
-}
-
-/* ---------- 対話表示 A: コントラスト型（色面 + 左の縦線、濃い文字） ---------- */
-:root[data-dialogue="a"] .dialogue-turn__body {
-  background: var(--color-neutral-100);
-  border: 0;
-  border-left: 4px solid var(--color-neutral-400);
-  border-radius: 0.5rem;
-  color: var(--color-neutral-900);
-  padding: 1rem 1.25rem;
-}
-:root[data-dialogue="a"] .dialogue-turn--user .dialogue-turn__body {
-  background: var(--color-primary-100);
-  border-left-color: var(--color-primary-600);
-}
-:root[data-dialogue="a"] .dialogue-turn__speaker {
-  width: 4rem;
-}
-:root[data-dialogue="a"] .dialogue-turn__avatar {
-  width: 2.75rem;
-  height: 2.75rem;
-}
-:root[data-dialogue="a"] .dialogue-turn__name {
-  font-size: 0.78rem;
-  font-weight: 600;
-  color: var(--color-neutral-700);
-}
-:root[data-dialogue="a"] .prose .dialogue-turn__body {
-  --tw-prose-body: var(--color-neutral-900);
-  --tw-prose-bold: var(--color-neutral-950, #000);
-}
-
-/* ---------- 対話表示 B: カード型（名前行を上に、上辺にアクセント） ---------- */
-:root[data-dialogue="b"] .dialogue-turn {
-  flex-direction: column;
-  gap: 0.4rem;
-  margin: 2rem 0;
-}
-:root[data-dialogue="b"] .dialogue-turn__speaker {
-  flex-direction: row;
-  width: auto;
-  gap: 0.5rem;
-  align-items: center;
-}
-:root[data-dialogue="b"] .dialogue-turn__avatar {
-  width: 1.75rem;
-  height: 1.75rem;
-}
-:root[data-dialogue="b"] .dialogue-turn__name {
-  font-size: 0.9rem;
-  font-weight: 700;
-  color: var(--color-neutral-800);
-}
-:root[data-dialogue="b"] .dialogue-turn__body {
-  width: 100%;
-  border: 1px solid var(--color-neutral-200);
-  border-top: 4px solid var(--color-neutral-700);
-  border-radius: 0.5rem;
-  box-shadow: 0 1px 3px rgb(0 0 0 / 0.06);
-  padding: 1.1rem 1.4rem;
-  color: var(--color-neutral-800);
-}
-:root[data-dialogue="b"] .dialogue-turn--user .dialogue-turn__body {
-  background: var(--color-primary-50);
-  border-top-color: var(--color-primary-600);
-}
-:root[data-dialogue="b"] .dialogue-turn--user .dialogue-turn__name {
-  color: var(--color-primary-700);
-}
-
-/* ---------- 対話表示 C: 台本型（吹き出し無し、話者列 + 区切り線） ---------- */
-:root[data-dialogue="c"] .dialogue-turn {
-  gap: 1rem;
-  margin: 0;
-  padding: 1.5rem 0;
-  border-top: 1px solid var(--color-neutral-200);
-}
-:root[data-dialogue="c"] .dialogue-turn:last-of-type {
-  border-bottom: 1px solid var(--color-neutral-200);
-}
-:root[data-dialogue="c"] .dialogue-turn__speaker {
-  width: 5.5rem;
-  flex-direction: row;
-  align-items: center;
-  justify-content: flex-start;
-  gap: 0.4rem;
-  position: sticky;
-  top: 5rem;
-}
-:root[data-dialogue="c"] .dialogue-turn__avatar {
-  width: 1.75rem;
-  height: 1.75rem;
-}
-:root[data-dialogue="c"] .dialogue-turn__name {
-  font-size: 0.8rem;
-  font-weight: 700;
-  color: var(--color-neutral-600);
-  text-align: left;
-}
-:root[data-dialogue="c"] .dialogue-turn--user .dialogue-turn__name {
-  color: var(--color-primary-700);
-}
-:root[data-dialogue="c"] .dialogue-turn__body {
-  background: transparent;
-  border: 0;
-  padding: 0;
-  font-size: 1em;
-  color: var(--color-neutral-800);
-}
-:root[data-dialogue="c"] .dialogue-turn--user .dialogue-turn__body {
-  border-left: 3px solid var(--color-primary-500);
-  padding-left: 1rem;
-  font-weight: 500;
 }
 
