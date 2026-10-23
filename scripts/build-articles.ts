@@ -42,7 +42,25 @@ const walk = async (dir: string): Promise<string[]> => {
   }
 };
 
-const md = (s: string) => marked.parse(s, { async: false }) as string;
+/**
+ * CommonMark の強調は「**…」**み」のように閉じ記号の直前が約物で直後に文字が続くと
+ * 認識されない（日本語で頻発）。コード以外の部分で **…** を <strong> に直接変換して補う。
+ */
+function fixCjkStrong(src: string): string {
+  // フェンスコードブロックとインラインコードは触らない
+  return src
+    .split(/(```[\s\S]*?```|~~~[\s\S]*?~~~)/)
+    .map((seg, i) => {
+      if (i % 2 === 1) return seg;
+      return seg
+        .split(/(`[^`\n]*`)/)
+        .map((part, j) => (j % 2 === 1 ? part : part.replace(/\*\*(?=\S)([^*\n]+?)(?<=\S)\*\*/g, "<strong>$1</strong>")))
+        .join("");
+    })
+    .join("");
+}
+
+const md = (s: string) => marked.parse(fixCjkStrong(s), { async: false }) as string;
 const esc = (s: string) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/"/g, "&quot;");
 
 /**
