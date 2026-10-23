@@ -125,18 +125,26 @@
   </section>
 
   <section class="task" data-id="characters">
-    <header><input type="checkbox"><h3>キャラクターを掲載する</h3><span class="badge b2">P2</span></header>
-    <p><span class="label">背景:</span>今後のコンテンツ（対話形式など）を想定し、キャラクターをサイト上に登場させたい。</p>
+    <header><input type="checkbox"><h3>キャラクターを本格的に作り込む（軽量版は 2026-10-23 に完了）</h3><span class="badge b3">P3</span></header>
+    <p><span class="label">現状:</span>対話記事の吹き出し用に、letsspeak（既存アバターを縮小）とチャッピー（暫定の SVG）の 2 体のアイコンを <code>public/images/characters/</code> に用意済み。記事はこれで成立している。</p>
     <ul>
-      <li>キャラクター設定（名前、役割、見た目）と画像素材を用意する。画像は <code>public/images/</code> に置き、記事からは <code>/images/...</code> で参照する。</li>
-      <li>掲載場所を決める（トップのヒーロー、記事中の発言者アイコン、About ページなど）。</li>
-      <li>対話コンテンツと組み合わせるなら、発言者ごとのアイコン付き吹き出しスタイルを typography 調整に追加する。</li>
+      <li>チャッピーの正式なビジュアルを用意する（名前はツイートでの呼び名をそのまま採用）。差し替えは SVG/PNG を置き換えるだけ。</li>
+      <li>デザイン刷新（上のタスク）と合わせて、トップや About でのキャラクターの見せ方を決める。</li>
+      <li>発言者を増やす場合は front-matter の <code>speakers</code> で記事ごとに上書きできる。</li>
     </ul>
   </section>
 
   <section class="task" data-id="ai-dialogue">
-    <header><input type="checkbox"><h3>AI との対話内容をコンテンツとして掲載する</h3><span class="badge b2">P2</span></header>
-    <p><span class="label">背景:</span>letsspeak と AI の対話を記事化したい。そのまま貼るのではなく加工が必要。</p>
+    <header><input type="checkbox"><h3>AI との対話内容をコンテンツとして掲載する（残り 9 本）</h3><span class="badge b2">P2</span></header>
+    <p><span class="label">方針（2026-10-23 決定）:</span>対話の発言は編集せず原文のまま公開し、読みやすさは見せ方（要約・読みどころ・発言者アイコン付きの吹き出し）で作る。AI 対話の学習素材としても使えるよう、元ログの Markdown も同じ URL 配下で配信する。</p>
+    <p><span class="label">仕組み（実装済み）:</span><code>npx tsx scripts/import-chatgpt-share.ts --url ... --date ... --slug ...</code> で記事 Markdown を生成し、冒頭のコメントを要約と読みどころに置き換える。詳細は README と CLAUDE.md。</p>
+    <p><span class="label">1 本目:</span>「AI時代の技術力は「影」なのか」を作成済み（ローカルコミット、push 待ち）。</p>
+    <p><span class="label">残りの手順（1 本あたり）:</span></p>
+    <ul>
+      <li>取り込みスクリプトで生成し、要約と読みどころを書く。</li>
+      <li>精査メモ（<code>drafts/ai-dialogues/REVIEW.md</code>、非公開）の必須対応だけ反映する。江戸幕府の回は私人の X 投稿の URL と逐語引用の匿名化が必須。番組出演者特定は見送り。</li>
+      <li>長い回（有利区間、映像配信、江戸幕府）は吹き出しの折りたたみなど見せ方の追加を検討する。</li>
+    </ul>
     <p><span class="label">候補（@letsspeak の過去ツイートから収集、2026-10-23 時点で全リンク有効）:</span></p>
     <table>
       <tr><th>投稿日</th><th>ツイート本文 / チャットの題名</th><th>リンク</th></tr>
