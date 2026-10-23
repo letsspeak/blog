@@ -8,11 +8,12 @@ import { existsSync } from 'fs';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
+const projectRoot = join(__dirname, '..');
 
 console.log('📖 記事ファイルの監視を開始しています...');
 
 // 記事ディレクトリが存在するか確認
-const articlesPath = join(__dirname, 'articles');
+const articlesPath = join(projectRoot, 'articles');
 console.log('📁 監視ディレクトリ:', articlesPath);
 console.log('📁 ディレクトリ存在確認:', existsSync(articlesPath));
 
@@ -77,7 +78,7 @@ function buildArticles() {
   const buildProcess = spawn('npm', ['run', 'build:articles'], {
     stdio: 'inherit',
     shell: true,
-    cwd: __dirname
+    cwd: projectRoot
   });
 
   buildProcess.on('close', (code) => {
