@@ -5,7 +5,6 @@
 ## ファイル説明
 
 - `bucket-policy.json` - S3バケットのバケットポリシー
-- `cloudfront-config.json` - CloudFrontディストリビューションの設定
 - `blog-dns-record.json` - Route 53 DNSレコードの設定
 - `dns-validation.json` - SSL証明書のDNS検証設定
 
