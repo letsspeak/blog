@@ -7,7 +7,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ### Development
 - `npm run dev` - Start development server
 - `npm run build:articles` - Convert Markdown articles to HTML
-- `npm run build` - Full build (articles + Vite build to docs/)
+- `npm run build` - Full build (Vite build + articles, output to `dist/`)
 - `npm run preview` - Preview built site
 - `npm run lint` - Run ESLint (max 0 warnings enforced)
 - `npm run format` - Format code with Prettier
