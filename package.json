@@ -48,6 +48,7 @@
     },
     "overrides": {
         "glob": "^10.3.10",
-        "rimraf": "^4.4.1"
+        "rimraf": "^4.4.1",
+        "postcss-selector-parser": "^7.1.6"
     }
 }
