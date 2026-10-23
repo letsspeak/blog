@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ブログ 残タスク</title>
+<style>
+  :root {
+    --bg: #f6f7f9; --card: #ffffff; --fg: #1f2328; --muted: #656d76; --line: #d0d7de;
+    --p1: #cf222e; --p2: #bf8700; --p3: #0969da; --done: #1a7f37; --code-bg: #eff1f3;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #0d1117; --card: #161b22; --fg: #e6edf3; --muted: #8b949e; --line: #30363d;
+      --p1: #ff7b72; --p2: #d29922; --p3: #58a6ff; --done: #3fb950; --code-bg: #0b0f14;
+    }
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--fg); font: 15px/1.7 -apple-system, "Hiragino Sans", "Noto Sans JP", sans-serif; }
+  main { max-width: 860px; margin: 0 auto; padding: 32px 16px 64px; }
+  h1 { font-size: 1.6rem; margin: 0 0 4px; }
+  h2 { font-size: 1.15rem; margin: 36px 0 12px; padding-bottom: 6px; border-bottom: 1px solid var(--line); }
+  .meta { color: var(--muted); font-size: 0.9rem; margin-bottom: 20px; }
+  .notice { border: 1px solid var(--line); border-left: 4px solid var(--p2); background: var(--card); padding: 12px 16px; border-radius: 6px; font-size: 0.92rem; }
+  .task { background: var(--card); border: 1px solid var(--line); border-radius: 8px; padding: 14px 16px; margin: 12px 0; }
+  .task header { display: flex; align-items: flex-start; gap: 10px; }
+  .task input[type=checkbox] { margin-top: 6px; width: 16px; height: 16px; flex: none; }
+  .task h3 { margin: 0; font-size: 1.02rem; flex: 1; }
+  .task.done h3 { text-decoration: line-through; color: var(--muted); }
+  .badge { flex: none; font-size: 0.72rem; font-weight: 600; padding: 2px 8px; border-radius: 999px; color: #fff; letter-spacing: .02em; margin-top: 4px; }
+  .b1 { background: var(--p1); } .b2 { background: var(--p2); } .b3 { background: var(--p3); } .bd { background: var(--done); }
+  .task p, .task ul { margin: 8px 0 0 26px; font-size: 0.93rem; }
+  .task ul { padding-left: 18px; }
+  .label { color: var(--muted); font-weight: 600; margin-right: 4px; }
+  code { background: var(--code-bg); padding: 1px 5px; border-radius: 4px; font: 0.86em ui-monospace, SFMono-Regular, Menlo, monospace; }
+  pre { margin: 8px 0 0 26px; background: var(--code-bg); padding: 10px 12px; border-radius: 6px; overflow-x: auto; font-size: 0.84rem; line-height: 1.5; }
+  pre code { background: none; padding: 0; }
+  table { border-collapse: collapse; width: 100%; font-size: 0.92rem; background: var(--card); }
+  th, td { border: 1px solid var(--line); padding: 6px 10px; text-align: left; vertical-align: top; }
+  th { background: var(--code-bg); }
+  .ok { color: var(--done); font-weight: 600; }
+  .warn { color: var(--p2); font-weight: 600; }
+  footer { margin-top: 40px; color: var(--muted); font-size: 0.85rem; }
+</style>
+</head>
+<body>
+<main>
+  <h1>ブログ（blog.lsklab.com）残タスク</h1>
+  <p class="meta">最終更新: 2026-10-23 ／ チェック状態はこのブラウザ内のみに保存されます</p>
+
+  <div class="notice">
+    このファイルは公開リポジトリ（github.com/letsspeak/blog）に置く前提で書いています。
+    認証情報・メールアドレス・ローカルの絶対パス・AWS アカウント固有の ID は記載しないこと。
+    バケット名と CloudFront の設定は既に <code>.github/workflows/</code> で公開済みの範囲のみ言及しています。
+  </div>
+
+  <h2>現状サマリ（2026-10-23 対応後）</h2>
+  <table>
+    <tr><th>項目</th><th>状態</th></tr>
+    <tr><td>本番サイト</td><td class="ok">正常。TLS 証明書は ACM で自動更新済み（期限 2027-05-02）</td></tr>
+    <tr><td>ローカル main</td><td class="warn">origin/main より先行。push するとデプロイが走る（下記「未完了」参照）</td></tr>
+    <tr><td><code>npm run build</code> / <code>lint</code> / <code>typecheck</code></td><td class="ok">すべて成功</td></tr>
+    <tr><td>依存関係</td><td class="ok">Vite 8 / React 19 / react-router 7 / Tailwind 4 / marked 18 / ESLint 9.39。脆弱性は moderate 2 件のみ（上流待ち）</td></tr>
+    <tr><td>秘密情報の管理</td><td class="ok"><code>.env.aws*</code>（テンプレート以外）は gitignore 済み</td></tr>
+  </table>
+
+  <h2>未完了</h2>
+
+  <section class="task" data-id="push">
+    <header><input type="checkbox"><h3>ローカルの変更を push して本番に反映する</h3><span class="badge b1">P1</span></header>
+    <p><span class="label">内容:</span>2026-10-23 のコミット群（記事の front-matter 修正、ESLint 復旧、依存更新、Tailwind 4 移行、CI 強化）。push すると Actions が lint → typecheck → build → S3 sync → CloudFront invalidate を実行する。</p>
+    <p><span class="label">確認:</span>push 後に <code>gh run watch</code> または Actions の画面で成功を確認し、<code>curl https://blog.lsklab.com/posts-index.json</code> で 2025-07-02 の記事にタイトルと tags が入っていること。</p>
+  </section>
+
+  <section class="task" data-id="gh-auth">
+    <header><input type="checkbox"><h3>gh CLI を再認証する</h3><span class="badge b2">P2</span></header>
+    <p><span class="label">現象:</span>保存されたトークンが無効（HTTP 401）で <code>gh run list</code> が失敗する。対話的なログインが必要なため未対応。</p>
+<pre><code>gh auth login -h github.com
+gh run list -R letsspeak/blog -L 10</code></pre>
+    <p><span class="label">合わせて:</span>GitHub の Settings → Secrets で <code>AWS_ACCESS_KEY_ID</code> / <code>AWS_SECRET_ACCESS_KEY</code> / <code>CLOUDFRONT_DISTRIBUTION_ID</code> が設定されていることと、デプロイ用 IAM ユーザーのキーのローテーション時期を確認する（値はこのファイルに書かない）。</p>
+  </section>
+
+  <section class="task" data-id="eslint10">
+    <header><input type="checkbox"><h3>ESLint 10 への更新（上流待ち）</h3><span class="badge b3">P3</span></header>
+    <p><span class="label">ブロッカー:</span><code>eslint-plugin-react</code> の peerDependencies が <code>eslint ^9.7</code> までで、10 系を宣言していない。対応版が出たら <code>eslint</code> と <code>@eslint/js</code> を 10 系に上げる。</p>
+  </section>
+
+  <section class="task" data-id="typography-vuln">
+    <header><input type="checkbox"><h3>@tailwindcss/typography 経由の moderate 脆弱性 2 件（上流待ち）</h3><span class="badge b3">P3</span></header>
+    <p><span class="label">内容:</span>typography が固定している <code>postcss-selector-parser</code> 6 系の CPU 枯渇の問題。ビルド時にしか使わないので配信サイトには影響しない。typography 側で依存が更新されたら <code>npm update @tailwindcss/typography</code>。</p>
+  </section>
+
+  <section class="task" data-id="ts7">
+    <header><input type="checkbox"><h3>TypeScript 7 / @types/node 26 への更新は様子見</h3><span class="badge b3">P3</span></header>
+    <p>TypeScript 7 は Go 実装への移行版で、typescript-eslint などのエコシステム対応を待ってから上げる。@types/node は Actions の Node 22 に合わせている。</p>
+  </section>
+
+  <section class="task" data-id="tailwind-css-config">
+    <header><input type="checkbox"><h3>tailwind.config.js を CSS ファースト設定に完全移行する（任意）</h3><span class="badge b3">P3</span></header>
+    <p>Tailwind 4 移行時、typography の <code>theme()</code> 参照が自動変換できず <code>@config</code> で JS 設定を読む形になっている。動作に問題はないが、将来 <code>@theme</code> と <code>@utility</code> に書き直すと設定が <code>src/index.css</code> に一本化できる。</p>
+  </section>
+
+  <h2>完了済み（2026-10-23）</h2>
+  <section class="task done"><header><input type="checkbox" checked disabled><h3>2025-07-02 の記事に front-matter を追加。記事一覧に tags も出力されるよう修正</h3><span class="badge bd">DONE</span></header></section>
+  <section class="task done"><header><input type="checkbox" checked disabled><h3>ESLint flat config を作成し lint を復旧。typecheck スクリプトを追加</h3><span class="badge bd">DONE</span></header></section>
+  <section class="task done"><header><input type="checkbox" checked disabled><h3>古いビルド成果物と public/ の開発用コピーを git 管理から外し、CLAUDE.md を修正</h3><span class="badge bd">DONE</span></header></section>
+  <section class="task done"><header><input type="checkbox" checked disabled><h3>npm run dev の前に記事ビルドを実行。watch-articles.js の監視パスの不具合を修正</h3><span class="badge bd">DONE</span></header></section>
+  <section class="task done"><header><input type="checkbox" checked disabled><h3>npm audit fix と browserslist 更新（35 件 → 2 件）</h3><span class="badge bd">DONE</span></header></section>
+  <section class="task done"><header><input type="checkbox" checked disabled><h3>メジャー更新: marked 18 / react-router-dom 7 / Vite 8 / React 19 / Tailwind 4。未使用の react-helmet-async を削除</h3><span class="badge bd">DONE</span></header></section>
+  <section class="task done"><header><input type="checkbox" checked disabled><h3>build:articles を ts-node から tsx に置き換え（警告解消）</h3><span class="badge bd">DONE</span></header></section>
+  <section class="task done"><header><input type="checkbox" checked disabled><h3>Actions に lint と typecheck を追加、Node 22 に更新</h3><span class="badge bd">DONE</span></header></section>
+  <section class="task done"><header><input type="checkbox" checked disabled><h3>引き継ぎメモ（2026-10-22）はこのファイルに統合して削除</h3><span class="badge bd">DONE</span></header></section>
+  <section class="task done"><header><input type="checkbox" checked disabled><h3>デプロイ構成がビルド成果物をリポジトリに書き戻さないことを確認</h3><span class="badge bd">DONE</span></header></section>
+
+  <footer>
+    記事の追加手順: <code>articles/YYYY-MM/YYYY-MM-DD-slug.md</code> に front-matter（title / date / tags）付きで作成 → main に push → Actions が S3 へ同期し CloudFront を invalidate。
+  </footer>
+</main>
+<script>
+  (function () {
+    var KEY = 'blog-remaining-tasks-v2';
+    var state = {};
+    try { state = JSON.parse(localStorage.getItem(KEY) || '{}'); } catch (e) { state = {}; }
+    document.querySelectorAll('.task').forEach(function (el) {
+      var box = el.querySelector('input[type=checkbox]');
+      if (!box || box.disabled) return;
+      var id = el.getAttribute('data-id');
+      if (state[id]) { box.checked = true; el.classList.add('done'); }
+      box.addEventListener('change', function () {
+        el.classList.toggle('done', box.checked);
+        state[id] = box.checked;
+        try { localStorage.setItem(KEY, JSON.stringify(state)); } catch (e) {}
+      });
+    });
+  })();
+</script>
+</body>
+</html>
