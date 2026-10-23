@@ -61,7 +61,7 @@
     <tr><td>デプロイ</td><td class="ok">2026-10-23 に push 済み。Actions 成功、本番の JS/CSS ハッシュがローカルビルドと一致</td></tr>
     <tr><td>gh CLI</td><td class="ok">再認証済み。Secrets 3 件の設定を確認</td></tr>
     <tr><td><code>npm run build</code> / <code>lint</code> / <code>typecheck</code></td><td class="ok">すべて成功</td></tr>
-    <tr><td>依存関係</td><td class="ok">Vite 8 / React 19 / react-router 7 / Tailwind 4 / marked 18 / ESLint 9.39。脆弱性は moderate 2 件のみ（上流待ち）</td></tr>
+    <tr><td>依存関係</td><td class="ok">Vite 8 / React 19 / react-router 7 / Tailwind 4（CSS ファースト設定） / marked 18 / ESLint 9.39。npm audit 0 件</td></tr>
     <tr><td>秘密情報の管理</td><td class="ok"><code>.env.aws*</code>（テンプレート以外）は gitignore 済み</td></tr>
   </table>
 
@@ -80,33 +80,20 @@
     <p><span class="label">確認:</span><code>gh secret list -R letsspeak/blog</code> の更新日時が新しくなっていること。</p>
   </section>
 
-  <section class="task" data-id="actions-node24">
-    <header><input type="checkbox"><h3>GitHub Actions のアクションを Node 24 対応版に更新する</h3><span class="badge b2">P2</span></header>
-    <p><span class="label">現象:</span>2026-10-23 のデプロイで「Node.js 20 is deprecated」の警告。<code>actions/checkout@v4</code>、<code>actions/setup-node@v4</code>、<code>aws-actions/configure-aws-credentials@v4</code> が対象。今は強制的に Node 24 で動いているが、いずれ失敗する可能性がある。</p>
-    <p><span class="label">対応:</span>各アクションを Node 24 対応のメジャーバージョン（checkout v5、setup-node v5、configure-aws-credentials v5）に上げてデプロイが通ることを確認する。あわせて <code>ubuntu-latest</code> が Ubuntu 26 に移行する告知も出ているため、問題があれば <code>ubuntu-24.04</code> に固定する。</p>
-  </section>
 
 
 
   <section class="task" data-id="eslint10">
     <header><input type="checkbox"><h3>ESLint 10 への更新（上流待ち）</h3><span class="badge b3">P3</span></header>
-    <p><span class="label">ブロッカー:</span><code>eslint-plugin-react</code> の peerDependencies が <code>eslint ^9.7</code> までで、10 系を宣言していない。対応版が出たら <code>eslint</code> と <code>@eslint/js</code> を 10 系に上げる。</p>
+    <p><span class="label">ブロッカー:</span><code>eslint-plugin-react</code> の peerDependencies が <code>eslint ^9.7</code> までで、2026-10-23 時点では <code>npm install eslint@10</code> が ERESOLVE で失敗する。対応版が出たら <code>eslint</code> と <code>@eslint/js</code> を 10 系に上げる。確認コマンド: <code>npm view eslint-plugin-react peerDependencies.eslint</code></p>
   </section>
 
-  <section class="task" data-id="typography-vuln">
-    <header><input type="checkbox"><h3>@tailwindcss/typography 経由の moderate 脆弱性 2 件（上流待ち）</h3><span class="badge b3">P3</span></header>
-    <p><span class="label">内容:</span>typography が固定している <code>postcss-selector-parser</code> 6 系の CPU 枯渇の問題。ビルド時にしか使わないので配信サイトには影響しない。typography 側で依存が更新されたら <code>npm update @tailwindcss/typography</code>。</p>
-  </section>
 
   <section class="task" data-id="ts7">
     <header><input type="checkbox"><h3>TypeScript 7 / @types/node 26 への更新は様子見</h3><span class="badge b3">P3</span></header>
-    <p>TypeScript 7 は Go 実装への移行版で、typescript-eslint などのエコシステム対応を待ってから上げる。@types/node は Actions の Node 22 に合わせている。</p>
+    <p>TypeScript 7 は Go 実装への移行版。2026-10-23 時点で typescript-eslint の対応範囲が <code>&lt;6.1.0</code> のため上げられない。確認コマンド: <code>npm view typescript-eslint peerDependencies.typescript</code>。@types/node は Actions の Node 22 に合わせて 22 系のまま運用する。</p>
   </section>
 
-  <section class="task" data-id="tailwind-css-config">
-    <header><input type="checkbox"><h3>tailwind.config.js を CSS ファースト設定に完全移行する（任意）</h3><span class="badge b3">P3</span></header>
-    <p>Tailwind 4 移行時、typography の <code>theme()</code> 参照が自動変換できず <code>@config</code> で JS 設定を読む形になっている。動作に問題はないが、将来 <code>@theme</code> と <code>@utility</code> に書き直すと設定が <code>src/index.css</code> に一本化できる。</p>
-  </section>
 
   <section class="task" data-id="gh-purge">
     <header><input type="checkbox"><h3>GitHub Support に旧コミットの purge を依頼する（任意）</h3><span class="badge b3">P3</span></header>
@@ -115,6 +102,9 @@
   </section>
 
   <h2>完了済み（2026-10-23）</h2>
+  <section class="task done"><header><input type="checkbox" checked disabled><h3>Actions のアクションを Node 24 対応版（checkout v7 / setup-node v7 / configure-aws-credentials v6）に更新</h3><span class="badge bd">DONE</span></header></section>
+  <section class="task done"><header><input type="checkbox" checked disabled><h3>postcss-selector-parser を override で 7 系にし、npm audit を 0 件に</h3><span class="badge bd">DONE</span></header></section>
+  <section class="task done"><header><input type="checkbox" checked disabled><h3>tailwind.config.js を廃止し CSS ファースト設定に移行（computed style で表示一致を確認）</h3><span class="badge bd">DONE</span></header></section>
   <section class="task done"><header><input type="checkbox" checked disabled><h3>旧 GitHub Pages 設定を無効化し、docs/ の公開を停止</h3><span class="badge bd">DONE</span></header></section>
   <section class="task done"><header><input type="checkbox" checked disabled><h3>AWS アカウント ID を含むレガシー設定を削除し、git 履歴からも除去（force push 済み）</h3><span class="badge bd">DONE</span></header></section>
   <section class="task done"><header><input type="checkbox" checked disabled><h3>12 コミットを push し本番に反映。Actions（lint → typecheck → build → S3 → CloudFront）成功</h3><span class="badge bd">DONE</span></header></section>
