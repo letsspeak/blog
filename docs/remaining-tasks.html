@@ -101,6 +101,50 @@
     <p><span class="label">対応:</span>GitHub Support に「履歴を書き換えたので到達不能なコミットを purge してほしい」と依頼する。他マシンに古い clone があれば pull ではなく clone し直す。</p>
   </section>
 
+  <h2>今後の方向性（企画・コンテンツ）</h2>
+
+  <section class="task" data-id="redesign">
+    <header><input type="checkbox"><h3>ブログのデザインを刷新する</h3><span class="badge b2">P2</span></header>
+    <p><span class="label">背景:</span>現状はモノクロ基調のミニマルなデザインで、シンプルすぎる。</p>
+    <p><span class="label">着手時に決めること:</span></p>
+    <ul>
+      <li>方向性（例: キャラクター主体の親しみやすい見た目、雑誌風、ダークテーマ対応）。参考サイトを 2〜3 個集めてから着手する。</li>
+      <li>対象範囲: トップ、記事ページ、ヘッダー/フッター、404。記事本文の typography 設定は <code>src/index.css</code> の <code>@theme</code> と prose 調整に集約済み。</li>
+      <li>「技術以外も扱う」「キャラクター掲載」「対話コンテンツ」と相性の良い構成にする（カテゴリ表示、キャラクター用のスペース、会話形式の本文スタイル）。</li>
+    </ul>
+  </section>
+
+  <section class="task" data-id="beyond-tech">
+    <header><input type="checkbox"><h3>技術以外のテーマも扱えるブログにする</h3><span class="badge b2">P2</span></header>
+    <p><span class="label">背景:</span>現状はサイト名・説明文・README が「Tech Blog」前提になっている。</p>
+    <ul>
+      <li>サイト名と説明文（<code>src/components/Layout.tsx</code>、<code>src/pages/Home.tsx</code>、<code>index.html</code> の title）を見直す。</li>
+      <li>front-matter の <code>tags</code> に加えて <code>category</code> を導入し、トップで分類・絞り込みできるようにする（<code>scripts/build-articles.ts</code> と <code>posts-index.json</code> の拡張）。</li>
+      <li>README と CLAUDE.md の「技術ブログ」の記述を更新する。</li>
+    </ul>
+  </section>
+
+  <section class="task" data-id="characters">
+    <header><input type="checkbox"><h3>キャラクターを掲載する</h3><span class="badge b2">P2</span></header>
+    <p><span class="label">背景:</span>今後のコンテンツ（対話形式など）を想定し、キャラクターをサイト上に登場させたい。</p>
+    <ul>
+      <li>キャラクター設定（名前、役割、見た目）と画像素材を用意する。画像は <code>public/images/</code> に置き、記事からは <code>/images/...</code> で参照する。</li>
+      <li>掲載場所を決める（トップのヒーロー、記事中の発言者アイコン、About ページなど）。</li>
+      <li>対話コンテンツと組み合わせるなら、発言者ごとのアイコン付き吹き出しスタイルを typography 調整に追加する。</li>
+    </ul>
+  </section>
+
+  <section class="task" data-id="ai-dialogue">
+    <header><input type="checkbox"><h3>AI との対話内容をコンテンツとして掲載する</h3><span class="badge b2">P2</span></header>
+    <p><span class="label">背景:</span>letsspeak と AI の対話を記事化したい。そのまま貼るのではなく加工が必要。</p>
+    <p><span class="label">参考:</span>「AI時代の技術力について」 <a href="https://chatgpt.com/share/6a788314-49cc-83e8-8789-bf8931205e70">ChatGPT 共有リンク</a></p>
+    <ul>
+      <li>加工方針を決める: 要約+抜粋か、全文を対話形式で整形するか。個人情報や文脈依存の発言は削る。</li>
+      <li>対話を Markdown で表現する書式を決める（例: 発言者見出し付きの引用ブロック、または専用の HTML クラス）。<code>marked</code> の拡張で <code>:::speaker</code> のような独自記法を変換する方法もある。</li>
+      <li>最初の 1 本を上記リンクから作り、書式と見た目をレビューしてから横展開する。</li>
+    </ul>
+  </section>
+
   <h2>完了済み（2026-10-23）</h2>
   <section class="task done"><header><input type="checkbox" checked disabled><h3>Actions のアクションを Node 24 対応版（checkout v7 / setup-node v7 / configure-aws-credentials v6）に更新</h3><span class="badge bd">DONE</span></header></section>
   <section class="task done"><header><input type="checkbox" checked disabled><h3>postcss-selector-parser を override で 7 系にし、npm audit を 0 件に</h3><span class="badge bd">DONE</span></header></section>
