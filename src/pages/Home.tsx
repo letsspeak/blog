@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Layout from "../components/Layout";
 
-type Meta = { title: string; date: string; slug: string; path: string };
+type Meta = { title: string; date: string; slug: string; path: string; type?: "dialogue" };
 
 export default function Home() {
   const [posts, setPosts] = useState<Meta[]>([]);
@@ -84,6 +84,11 @@ export default function Home() {
                   className="block group"
                 >
                   <h3 className="text-xl font-semibold text-neutral-900 group-hover:text-primary-600 transition-colors mb-2">
+                    {post.type === "dialogue" && (
+                      <span className="inline-block align-middle mr-2 px-2 py-0.5 rounded-sm bg-primary-50 text-primary-700 text-xs font-medium">
+                        AI対話
+                      </span>
+                    )}
                     {post.title}
                   </h3>
                   

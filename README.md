@@ -172,6 +172,20 @@ public/
 └── dist/              # ビルド出力（S3にデプロイ）
 ```
 
+## 💬 AI との対話記事
+
+ChatGPT の共有リンクから対話を取り込んで記事にできます。発言は編集せず、表示用の記号の除去だけを行います。
+
+```bash
+npx tsx scripts/import-chatgpt-share.ts \
+  --url https://chatgpt.com/share/<id> \
+  --date 2026-08-09 --slug my-dialogue --title "記事タイトル" --tags ai-dialogue,chatgpt
+```
+
+生成された `articles/YYYY-MM/YYYY-MM-DD-<slug>.md` の冒頭コメントを要約と読みどころに置き換えれば完成です。
+本文は `::: user` / `::: assistant` ブロックで、ビルド時に発言者アイコン付きの吹き出しになります。
+元ログの Markdown は `/articles/YYYY-MM/<slug>.md` でも配信されます。
+
 ## 🎨 デザインシステム
 
 - **フォント**: Inter（本文）+ JetBrains Mono（コード）

@@ -166,4 +166,87 @@ layer(base);
   .prose-lg {
     line-height: 1.8;
   }
+
+  /* 吹き出し内の先頭・末尾の余白を詰める（prose の段落マージンより後に置く） */
+  .prose .dialogue-turn__body > :first-child {
+    margin-top: 0;
+  }
+
+  .prose .dialogue-turn__body > :last-child {
+    margin-bottom: 0;
+  }
 }
+
+/* ---------------------------------------------------------------
+   対話記事（AI との対話ログ）の表示
+   本文は元ログのまま、見せ方だけを吹き出し形式にする
+   --------------------------------------------------------------- */
+@layer components {
+  .dialogue-turn {
+    display: flex;
+    gap: 0.75rem;
+    margin: 1.5rem 0;
+    align-items: flex-start;
+  }
+
+  .dialogue-turn__speaker {
+    flex: none;
+    width: 3.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.25rem;
+  }
+
+  .dialogue-turn__avatar {
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 9999px;
+    object-fit: cover;
+    background: var(--color-neutral-100);
+    margin: 0 !important;
+  }
+
+  .dialogue-turn__name {
+    font-size: 0.7rem;
+    line-height: 1.2;
+    color: var(--color-neutral-500);
+    text-align: center;
+    word-break: keep-all;
+  }
+
+  .dialogue-turn__body {
+    flex: 1;
+    min-width: 0;
+    padding: 0.9rem 1.1rem;
+    border-radius: 0.75rem;
+    border: 1px solid var(--color-neutral-200);
+    background: #fff;
+    font-size: 0.95em;
+  }
+
+  .dialogue-turn--user .dialogue-turn__body {
+    background: var(--color-primary-50);
+    border-color: var(--color-primary-100);
+  }
+
+  /* 対話記事のメタ情報・免責 */
+  .dialogue-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem 1.25rem;
+    font-size: 0.85rem;
+    color: var(--color-neutral-600);
+    margin-bottom: 1rem;
+  }
+
+  .dialogue-notice {
+    font-size: 0.85rem;
+    color: var(--color-neutral-600);
+    background: var(--color-neutral-100);
+    border-radius: 0.5rem;
+    padding: 0.75rem 1rem;
+    margin-bottom: 2rem;
+  }
+}
+

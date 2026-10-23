@@ -10,7 +10,9 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - `npm run build` - Full build (Vite build + articles, output to `dist/`)
 - `npm run preview` - Preview built site
 - `npm run lint` - Run ESLint (max 0 warnings enforced)
+- `npm run typecheck` - Type-check with tsc (no emit)
 - `npm run format` - Format code with Prettier
+- `npx tsx scripts/import-chatgpt-share.ts --url <share url> --date YYYY-MM-DD --slug <slug> [--title ...] [--tags a,b]` - Import a ChatGPT shared conversation as a dialogue article
 
 ### Testing
 No test framework is configured in this project.
@@ -36,6 +38,12 @@ This is a static blog built as a React SPA with a custom Markdown processing pip
 - Articles: `articles/YYYY-MM/YYYY-MM-DD-slug.md` format
 - Front-matter: YAML with `title`, `date`, `tags` fields
 - URLs: `/posts/:year/:slug` pattern
+- `drafts/` is gitignored: private notes, raw dialogue exports, review memos. Never move its contents into `docs/` or `articles/` without checking for personal data (the repo is public)
+
+### Dialogue Articles (AI との対話ログ)
+- Front-matter `type: dialogue` plus `source` (share URL), `model`, `dialogue_date`. Optional `speakers` map overrides the default avatars/names (`user` = letsspeak, `assistant` = チャッピー, images in `public/images/characters/`)
+- Body: free Markdown (summary / 読みどころ) followed by turns written as `::: user` … `:::` / `::: assistant` … `:::`. `scripts/build-articles.ts` renders each turn as a speaker bubble
+- Policy: the turns are published verbatim. Only ChatGPT display tokens are stripped and third-party identifying details are anonymized; no summarizing or rewording of turns. The Markdown source is also copied to `dist/articles/.../slug.md` so the raw log stays readable by people and machines
 
 ### Tech Stack
 - React 18 + TypeScript + Vite

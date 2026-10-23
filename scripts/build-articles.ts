@@ -9,7 +9,24 @@ const DEV_DST = "public/articles";    // 開発用
 const INDEX = "dist/posts-index.json"; // プロダクション用メタ情報
 const DEV_INDEX = "public/posts-index.json"; // 開発用メタ情報
 
-type PostMeta = { title: string; date: string; slug: string; path: string; tags?: string[] };
+type PostMeta = {
+  title: string;
+  date: string;
+  slug: string;
+  path: string;
+  tags?: string[];
+  type?: "dialogue";
+  source?: string;
+  model?: string;
+  dialogueDate?: string;
+  raw?: string; // 元ログ（Markdown）のパス
+};
+
+// 対話記事の発言者。front-matter の speakers で上書きできる
+const DEFAULT_SPEAKERS: Record<string, { name: string; avatar: string }> = {
+  user: { name: "letsspeak", avatar: "/images/characters/letsspeak.png" },
+  assistant: { name: "チャッピー", avatar: "/images/characters/chappy.svg" },
+};
 
 const walk = async (dir: string): Promise<string[]> => {
   try {
@@ -25,45 +42,98 @@ const walk = async (dir: string): Promise<string[]> => {
   }
 };
 
+const md = (s: string) => marked.parse(s, { async: false }) as string;
+const esc = (s: string) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/"/g, "&quot;");
+
+/**
+ * `::: user` / `::: assistant` 〜 `:::` のブロックを発言者付きの HTML に変換する。
+ * ブロック外は通常の Markdown として扱う。
+ */
+function renderDialogue(content: string, speakers: Record<string, { name: string; avatar: string }>): string {
+  const lines = content.split("\n");
+  const out: string[] = [];
+  let buf: string[] = [];
+  let role: string | null = null;
+  const flush = () => {
+    const text = buf.join("\n").trim();
+    buf = [];
+    if (!text) return;
+    if (role) {
+      const sp = speakers[role] ?? { name: role, avatar: "" };
+      out.push(
+        `<section class="dialogue-turn dialogue-turn--${role}">` +
+          `<div class="dialogue-turn__speaker">` +
+            (sp.avatar ? `<img class="dialogue-turn__avatar" src="${esc(sp.avatar)}" alt="" width="40" height="40">` : "") +
+            `<span class="dialogue-turn__name">${esc(sp.name)}</span>` +
+          `</div>` +
+          `<div class="dialogue-turn__body">${md(text)}</div>` +
+        `</section>`
+      );
+    } else {
+      out.push(md(text));
+    }
+  };
+  for (const line of lines) {
+    const open = line.match(/^:::\s*(user|assistant)\s*$/);
+    if (open) { flush(); role = open[1]; continue; }
+    if (/^:::\s*$/.test(line) && role) { flush(); role = null; continue; }
+    buf.push(line);
+  }
+  flush();
+  return out.join("\n");
+}
+
 (async () => {
   try {
     const mdFiles = (await walk(SRC)).filter(f => f.endsWith(".md"));
     const index: PostMeta[] = [];
 
-    // 出力ディレクトリの作成（プロダクション用と開発用）
     await fs.mkdir(DST, { recursive: true });
     await fs.mkdir(DEV_DST, { recursive: true });
 
     for (const file of mdFiles) {
       try {
         const raw = await fs.readFile(file, "utf8");
-        const { data, content } = matter(raw);        // YAML front-matter を想定
-        const html = marked.parse(content, { async: false }) as string;  // 型アサーションを追加
+        const { data, content } = matter(raw);
+        const isDialogue = data.type === "dialogue";
+        const speakers = { ...DEFAULT_SPEAKERS, ...(data.speakers ?? {}) };
+        const html = isDialogue ? renderDialogue(content, speakers) : md(content);
         const slug = path.basename(file, ".md");
-        const outDir = path.join(DST, path.relative(SRC, path.dirname(file)));
-        const devOutDir = path.join(DEV_DST, path.relative(SRC, path.dirname(file)));
-        
-        // 出力ディレクトリの作成（プロダクション用と開発用）
+        const rel = path.relative(SRC, path.dirname(file));
+        const outDir = path.join(DST, rel);
+        const devOutDir = path.join(DEV_DST, rel);
+
         await fs.mkdir(outDir, { recursive: true });
         await fs.mkdir(devOutDir, { recursive: true });
-        
-        // HTMLファイルの書き込み（プロダクション用と開発用）
         await fs.writeFile(path.join(outDir, `${slug}.html`), html);
         await fs.writeFile(path.join(devOutDir, `${slug}.html`), html);
 
-        index.push({
+        const meta: PostMeta = {
           title: data.title ?? slug,
           date: data.date ?? slug.slice(0, 10),
           slug,
-          path: `${path.relative(SRC, path.dirname(file))}/${slug}.html`,
+          path: `${rel}/${slug}.html`,
           ...(Array.isArray(data.tags) && data.tags.length > 0 ? { tags: data.tags.map(String) } : {}),
-        });
+        };
+
+        if (isDialogue) {
+          // 元ログを Markdown のまま配信する（人にも機械にも読める形で残す）
+          await fs.writeFile(path.join(outDir, `${slug}.md`), raw);
+          await fs.writeFile(path.join(devOutDir, `${slug}.md`), raw);
+          Object.assign(meta, {
+            type: "dialogue",
+            ...(data.source ? { source: String(data.source) } : {}),
+            ...(data.model ? { model: String(data.model) } : {}),
+            ...(data.dialogue_date ? { dialogueDate: String(data.dialogue_date) } : {}),
+            raw: `${rel}/${slug}.md`,
+          });
+        }
+        index.push(meta);
       } catch (error) {
         console.error(`Error processing file ${file}:`, error);
       }
     }
 
-    // インデックスファイルの書き込み（プロダクション用とデベロップメント用）
     await fs.writeFile(INDEX, JSON.stringify(index, null, 2));
     await fs.writeFile(DEV_INDEX, JSON.stringify(index, null, 2));
     console.log(`Successfully processed ${mdFiles.length} markdown files`);

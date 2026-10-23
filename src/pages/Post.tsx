@@ -8,6 +8,11 @@ interface PostMeta {
   date: string;
   slug: string;
   tags?: string[];
+  type?: "dialogue";
+  source?: string;
+  model?: string;
+  dialogueDate?: string;
+  raw?: string;
 }
 
 export default function Post() {
@@ -140,6 +145,30 @@ export default function Post() {
             </>
           )}
         </header>
+
+        {/* 対話記事のメタ情報と免責 */}
+        {meta?.type === "dialogue" && (
+          <>
+            <div className="dialogue-meta">
+              <span>{meta.model ?? "AI"} との対話ログ</span>
+              {meta.dialogueDate && <span>対話日: {formatDate(meta.dialogueDate)}</span>}
+              {meta.source && (
+                <a href={meta.source} className="link" target="_blank" rel="noopener noreferrer">
+                  元の共有リンク
+                </a>
+              )}
+              {meta.raw && (
+                <a href={`/articles/${meta.raw}`} className="link">
+                  Markdown で読む
+                </a>
+              )}
+            </div>
+            <div className="dialogue-notice">
+              この記事は {meta.model ?? "AI"} との対話をそのまま掲載しています。発言は編集していません（表示用の記号の除去と、第三者に関わる箇所の匿名化のみ）。
+              AI 側の発言に含まれる事実や数値は検証していないので、そのまま鵜呑みにしないでください。
+            </div>
+          </>
+        )}
 
         {/* 記事本文 */}
         <article 
