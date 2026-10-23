@@ -2,9 +2,9 @@
  * ChatGPT の共有リンクから対話を取り込み、記事 Markdown を生成する。
  *
  *   npx tsx scripts/import-chatgpt-share.ts --url https://chatgpt.com/share/<id> \
- *     --date 2026-08-09 --slug ai-era-engineering-skill [--title "..."] [--tags a,b]
+ *     --date 2026-08-09 --slug ai-era-engineering-skill [--title "..."] [--tags a,b] [--out drafts/articles]
  *
- * 出力: articles/YYYY-MM/YYYY-MM-DD-<slug>.md
+ * 出力: articles/YYYY-MM/YYYY-MM-DD-<slug>.md（--out で出力先ディレクトリを変更できる）
  * 本文は発言を削らず、ChatGPT の表示用トークン（引用マーカー等）だけを除去する。
  */
 import { promises as fs } from "fs";
@@ -139,7 +139,7 @@ async function main() {
   ].join("\n");
 
   const body = turns.map(t => `::: ${t.role}\n\n${t.text}\n\n:::`).join("\n\n");
-  const dir = path.join("articles", args.date.slice(0, 7));
+  const dir = args.out ? args.out : path.join("articles", args.date.slice(0, 7));
   await fs.mkdir(dir, { recursive: true });
   const out = path.join(dir, `${args.date}-${args.slug}.md`);
   await fs.writeFile(out, fm + body + "\n");
