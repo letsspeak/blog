@@ -108,7 +108,15 @@
     <p>Tailwind 4 移行時、typography の <code>theme()</code> 参照が自動変換できず <code>@config</code> で JS 設定を読む形になっている。動作に問題はないが、将来 <code>@theme</code> と <code>@utility</code> に書き直すと設定が <code>src/index.css</code> に一本化できる。</p>
   </section>
 
+  <section class="task" data-id="gh-purge">
+    <header><input type="checkbox"><h3>GitHub Support に旧コミットの purge を依頼する（任意）</h3><span class="badge b3">P3</span></header>
+    <p><span class="label">背景:</span>2026-10-23 に AWS アカウント ID を含むファイルを履歴から除去して force push したが、旧コミットは GitHub 上で SHA 直打ちならガベージコレクションまで閲覧できる。ID は秘密情報ではないため必須ではない。</p>
+    <p><span class="label">対応:</span>GitHub Support に「履歴を書き換えたので到達不能なコミットを purge してほしい」と依頼する。他マシンに古い clone があれば pull ではなく clone し直す。</p>
+  </section>
+
   <h2>完了済み（2026-10-23）</h2>
+  <section class="task done"><header><input type="checkbox" checked disabled><h3>旧 GitHub Pages 設定を無効化し、docs/ の公開を停止</h3><span class="badge bd">DONE</span></header></section>
+  <section class="task done"><header><input type="checkbox" checked disabled><h3>AWS アカウント ID を含むレガシー設定を削除し、git 履歴からも除去（force push 済み）</h3><span class="badge bd">DONE</span></header></section>
   <section class="task done"><header><input type="checkbox" checked disabled><h3>12 コミットを push し本番に反映。Actions（lint → typecheck → build → S3 → CloudFront）成功</h3><span class="badge bd">DONE</span></header></section>
   <section class="task done"><header><input type="checkbox" checked disabled><h3>gh CLI を再認証し、Secrets 3 件とワークフローの有効状態を確認</h3><span class="badge bd">DONE</span></header></section>
   <section class="task done"><header><input type="checkbox" checked disabled><h3>2025-07-02 の記事に front-matter を追加。記事一覧に tags も出力されるよう修正</h3><span class="badge bd">DONE</span></header></section>
