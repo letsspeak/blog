@@ -137,7 +137,22 @@
   <section class="task" data-id="ai-dialogue">
     <header><input type="checkbox"><h3>AI との対話内容をコンテンツとして掲載する</h3><span class="badge b2">P2</span></header>
     <p><span class="label">背景:</span>letsspeak と AI の対話を記事化したい。そのまま貼るのではなく加工が必要。</p>
-    <p><span class="label">参考:</span>「AI時代の技術力について」 <a href="https://chatgpt.com/share/6a788314-49cc-83e8-8789-bf8931205e70">ChatGPT 共有リンク</a></p>
+    <p><span class="label">候補（@letsspeak の過去ツイートから収集、2026-10-23 時点で全リンク有効）:</span></p>
+    <table>
+      <tr><th>投稿日</th><th>ツイート本文 / チャットの題名</th><th>リンク</th></tr>
+      <tr><td>2026-08-25</td><td>AIがキモイ話</td><td><a href="https://chatgpt.com/share/6a8ce131-3db8-83e8-a912-66df10b2ee79">共有</a> ／ <a href="https://x.com/letsspeak/status/2092046010482860037">ツイート</a></td></tr>
+      <tr><td>2026-08-12</td><td>江戸幕府と欧州の違いが何故生まれたのかに関する考察（スレッド: 「なーるほど」「そしてゴーストへ 酔うと会話が捗るな」）</td><td><a href="https://chatgpt.com/share/6a7c7afe-a66c-83ee-8a27-b4531a568988">共有</a> ／ <a href="https://x.com/letsspeak/status/2087538606433022449">ツイート</a></td></tr>
+      <tr><td>2026-08-09</td><td>AI時代の技術力について（最初の 1 本の候補）</td><td><a href="https://chatgpt.com/share/6a788314-49cc-83e8-8789-bf8931205e70">共有</a> ／ <a href="https://x.com/letsspeak/status/2086447447870709859">ツイート</a></td></tr>
+      <tr><td>2026-05-03</td><td>音楽の同期性や調律の話題から、AIの脆さを補った未来の形など（題名: 音楽と進化的適応。続き「そして宇宙の外へ」）</td><td><a href="https://chatgpt.com/share/69f7b67a-ec20-83a4-b922-4a72ccb65893">共有</a> ／ <a href="https://x.com/letsspeak/status/2051043776156803498">ツイート</a></td></tr>
+      <tr><td>2026-05-03</td><td>AIの進化の源泉は人類文明そのものにあったことを確認できた</td><td><a href="https://chatgpt.com/share/69f741ac-3908-83a5-8d5c-3cb05f6a1286">共有</a> ／ <a href="https://x.com/letsspeak/status/2050918044504097245">ツイート</a></td></tr>
+      <tr><td>2026-01-19</td><td>（本文なし）題名: iPhoneゲームのキャッシュ解析</td><td><a href="https://chatgpt.com/share/696e4fcc-cca4-8001-8a2c-735d20499981">共有</a> ／ <a href="https://x.com/letsspeak/status/2013274774546333745">ツイート</a></td></tr>
+      <tr><td>2025-12-20</td><td>パチンコスロットの断片的な知識について有識者とやっと交換出来た（題名: 有利区間開始仕組み）</td><td><a href="https://chatgpt.com/share/6946b899-c67c-8001-8414-391e2fe5cd70">共有</a> ／ <a href="https://x.com/letsspeak/status/2002392729196634284">ツイート</a></td></tr>
+      <tr><td>2025-10-14</td><td>コーディングと次元についてチャッピーとお話しした記録（題名: AIとの並走コーディング）</td><td><a href="https://chatgpt.com/share/68ee5eee-3090-8001-80ad-ae0259c59d75">共有</a> ／ <a href="https://x.com/letsspeak/status/1978106885753520294">ツイート</a></td></tr>
+      <tr><td>2025-09-22</td><td>今日のチャッピー（題名: 番組出演者特定）</td><td><a href="https://chatgpt.com/share/68d12fb6-21b4-8001-9e11-f7ff3fa2510d">共有</a> ／ <a href="https://x.com/letsspeak/status/1970084491516674338">ツイート</a></td></tr>
+      <tr><td>2025-08-12</td><td>久しぶりに色々調べてもらった（題名: 映像配信ツールの仕組み）</td><td><a href="https://chatgpt.com/share/689b3520-1b84-8001-8bca-9e6b9e6b428d">共有</a> ／ <a href="https://x.com/letsspeak/status/1955247234490175779">ツイート</a></td></tr>
+      <tr><td>2025-08-12</td><td>チャッピーにコードの差異教えてもらった（題名: 差異の洗い出し）</td><td><a href="https://chatgpt.com/share/689b2c8e-c960-8001-b769-32bd62bde423">共有</a> ／ <a href="https://x.com/letsspeak/status/1955238018102726883">ツイート</a></td></tr>
+    </table>
+    <p><span class="label">補足:</span>2026-08-12 のツイート「AIとの会話ログが新時代のまとめブログになる」がこの企画のコンセプトに近い。2025-07 以前には共有リンク付きの投稿は見つからなかった。</p>
     <ul>
       <li>加工方針を決める: 要約+抜粋か、全文を対話形式で整形するか。個人情報や文脈依存の発言は削る。</li>
       <li>対話を Markdown で表現する書式を決める（例: 発言者見出し付きの引用ブロック、または専用の HTML クラス）。<code>marked</code> の拡張で <code>:::speaker</code> のような独自記法を変換する方法もある。</li>
