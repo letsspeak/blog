@@ -20,7 +20,7 @@ export default function Layout({ children }: LayoutProps) {
               to="/"
               className="text-xl font-bold text-neutral-900 hover:text-primary-600 transition-colors"
             >
-              letsspeak's Tech Blog
+              letsspeak&apos;s Tech Blog
             </Link>
 
             {/* ナビゲーション */}
@@ -100,7 +100,7 @@ export default function Layout({ children }: LayoutProps) {
             {/* コピーライト */}
             <div className="text-center text-neutral-500 space-y-2">
               <p className="text-sm">
-                © 2025 letsspeak's Tech Blog. Built with React + Vite, deployed on AWS.
+                © {new Date().getFullYear()} letsspeak&apos;s Tech Blog. Built with React + Vite, deployed on AWS.
               </p>
               <div className="flex items-center justify-center space-x-1 text-xs">
                 <span>Made with</span>

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import Layout from "../components/Layout";
 import ShareButtons from "../components/ShareButtons";
@@ -6,6 +6,7 @@ import ShareButtons from "../components/ShareButtons";
 interface PostMeta {
   title: string;
   date: string;
+  slug: string;
   tags?: string[];
 }
 
@@ -25,8 +26,8 @@ export default function Post() {
         if (!r.ok) throw new Error('記事が見つかりません');
         return r.text();
       }),
-      fetch('/posts-index.json').then(r => r.json()).then(posts => {
-        const post = posts.find((p: any) => p.slug === slug);
+      fetch('/posts-index.json').then(r => r.json() as Promise<PostMeta[]>).then(posts => {
+        const post = posts.find(p => p.slug === slug);
         return post || null;
       })
     ])
