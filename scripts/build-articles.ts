@@ -9,7 +9,7 @@ const DEV_DST = "public/articles";    // 開発用
 const INDEX = "dist/posts-index.json"; // プロダクション用メタ情報
 const DEV_INDEX = "public/posts-index.json"; // 開発用メタ情報
 
-type PostMeta = { title: string; date: string; slug: string; path: string };
+type PostMeta = { title: string; date: string; slug: string; path: string; tags?: string[] };
 
 const walk = async (dir: string): Promise<string[]> => {
   try {
@@ -56,6 +56,7 @@ const walk = async (dir: string): Promise<string[]> => {
           date: data.date ?? slug.slice(0, 10),
           slug,
           path: `${path.relative(SRC, path.dirname(file))}/${slug}.html`,
+          ...(Array.isArray(data.tags) && data.tags.length > 0 ? { tags: data.tags.map(String) } : {}),
         });
       } catch (error) {
         console.error(`Error processing file ${file}:`, error);

@@ -1,4 +1,8 @@
-# Claude Code を \$3500 使って感じた「人間の脳」と「Claude Code の脳」の違い
+---
+title: "Claude Code を $3500 使って感じた「人間の脳」と「Claude Code の脳」の違い"
+date: "2025-07-02"
+tags: [claude-code, ai, context-window]
+---
 
 ## はじめに
 
