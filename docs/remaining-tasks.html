@@ -135,10 +135,11 @@
   </section>
 
   <section class="task" data-id="ai-dialogue">
-    <header><input type="checkbox"><h3>AI との対話内容をコンテンツとして掲載する（残り 9 本）</h3><span class="badge b2">P2</span></header>
+    <header><input type="checkbox"><h3>AI との対話内容をコンテンツとして掲載する（残り 8 本）</h3><span class="badge b2">P2</span></header>
     <p><span class="label">方針（2026-10-23 決定）:</span>対話の発言は編集せず原文のまま公開し、読みやすさは見せ方（要約・読みどころ・発言者アイコン付きの吹き出し）で作る。AI 対話の学習素材としても使えるよう、元ログの Markdown も同じ URL 配下で配信する。</p>
     <p><span class="label">仕組み（実装済み）:</span><code>npx tsx scripts/import-chatgpt-share.ts --url ... --date ... --slug ...</code> で記事 Markdown を生成し、冒頭のコメントを要約と読みどころに置き換える。詳細は README と CLAUDE.md。</p>
     <p><span class="label">1 本目:</span>「AI時代の技術力は「影」なのか」を 2026-10-23 に公開（<code>/posts/2026-08/2026-08-09-ai-era-engineering-skill</code>）。</p>
+    <p><span class="label">2 本目:</span>「AI生成コードのレビュー論争、争点を洗い出す」を 2026-10-26 に公開。</p>
     <p><span class="label">進め方（2026-10-23 決定）:</span>残り 9 本の下書きは <code>drafts/articles/</code>（git 管理外）に用意済み。要約・読みどころ・精査メモの必須対応まで反映してある。記事日付は元ツイートの日付。1 日 1 本の順でレビューして公開する: 差異の洗い出し → AIとの並走コーディング → 音楽と進化的適応 → AIがキモい話 → ガチャのキャッシュ → TSMC 2nm → 映像配信 → 江戸幕府と欧州 → 有利区間（題材の判断込み）。</p>
     <p><span class="label">1 本あたりの手順:</span></p>
     <ul>
