@@ -2,13 +2,16 @@
  * ChatGPT の共有リンクから対話を取り込み、記事 Markdown を生成する。
  *
  *   npx tsx scripts/import-chatgpt-share.ts --url https://chatgpt.com/share/<id> \
- *     --date 2026-08-09 --slug ai-era-engineering-skill [--title "..."] [--tags a,b] [--out drafts/articles]
+ *     --date 2026-08-09 --slug ai-era-engineering-skill [--title "..."] [--tags a,b] [--out drafts/articles] [--html saved.html]
  *
  * 出力: articles/YYYY-MM/YYYY-MM-DD-<slug>.md（--out で出力先ディレクトリを変更できる）
  * 本文は発言を削らず、ChatGPT の表示用トークン（引用マーカー等）だけを除去する。
+ * 取得は fetch → curl の順で試す（Node の fetch だと SSR ペイロード無しの殻ページが返ることがある）。
+ * --html でブラウザから保存した HTML を直接渡すこともできる。
  */
 import { promises as fs } from "fs";
 import path from "path";
+import { execFileSync } from "child_process";
 
 type Args = Record<string, string>;
 const args: Args = {};
@@ -67,9 +70,52 @@ function findAll(obj: unknown, key: string, acc: unknown[] = []): unknown[] {
   return acc;
 }
 
+// ---- ChatGPT の UI ウィジェット（JSX 風タグ）を素の Markdown に戻す ----
+function chartToTable(json: string): string {
+  try {
+    const c = JSON.parse(json) as { xKey?: string; series?: { dataKey: string; label?: string }[]; data?: Record<string, unknown>[]; meta?: { footer?: string } };
+    if (!c.xKey || !c.series?.length || !c.data?.length) return "（グラフ）";
+    const head = `| ${c.xKey} | ${c.series.map(sr => sr.label ?? sr.dataKey).join(" | ")} |`;
+    const sep = `|${"---|".repeat(c.series.length + 1)}`;
+    const rows = c.data.map(d => `| ${String(d[c.xKey!])} | ${c.series!.map(sr => String(d[sr.dataKey])).join(" | ")} |`);
+    const footer = c.meta?.footer ? `\n\n${c.meta.footer}` : "";
+    return `（グラフを表で表示）\n\n${[head, sep, ...rows].join("\n")}${footer}`;
+  } catch {
+    return "（グラフ）";
+  }
+}
+
+function stripWidgets(s: string): string {
+  s = s
+    .replace(/<Chart content=\{(\{[\s\S]*?\})\}\s*\/>/g, (_m, j: string) => chartToTable(j))
+    .replace(/<Cite\b[^>]*\/>/g, "")
+    .replace(/<Link\b[^>]*url="([^"]*)"[^>]*title="([^"]*)"[^>]*\/>/g, "[$2]($1)")
+    .replace(/<Link\b[^>]*title="([^"]*)"[^>]*url="([^"]*)"[^>]*\/>/g, "[$1]($2)")
+    .replace(/<Entity\b[^>]*value="([^"]*)"[^>]*\/>/g, "$1")
+    .replace(/^.*<AsyncImageGroup\b[\s\S]*?\/>\s*$/gm, "")
+    .replace(/!\[([^\]]*)\]\(sandbox:[^)]*\)/g, "（画像「$1」は共有ページに含まれないため表示できません）")
+    .replace(/^.*\[[^\]]*\]\(sandbox:[^)]*\)\s*$/gm, "")
+    .replace(/<text\b[^>]*>([\s\S]*?)<\/text>/g, "$1")
+    .replace(/<badge\b[^>]*>([\s\S]*?)<\/badge>/g, "$1")
+    .replace(/<list-item\b[^>]*>([\s\S]*?)<\/list-item>/g, "- $1")
+    .replace(/<icon\b[^>]*name="arrow-down"[^>]*\/>/g, "↓")
+    .replace(/<icon\b[^>]*\/>/g, "");
+  // <box>/<row>/<list> のレイアウトタグは外し、内側のインデントを落とす（Markdown のコードブロック扱いを防ぐ）
+  const out: string[] = [];
+  let depth = 0;
+  for (const raw of s.split("\n")) {
+    const opens = (raw.match(/<box\b/g) ?? []).length;
+    const closes = (raw.match(/<\/box>/g) ?? []).length;
+    const inside = depth > 0 || opens > 0;
+    depth = Math.max(0, depth + opens - closes);
+    out.push(inside ? raw.replace(/<\/?(box|row|list)\b[^>]*>/g, "").trim() : raw);
+  }
+  return out.join("\n");
+}
+
 // ---- ChatGPT 表示用トークンの除去（発言内容は変えない） ----
 export function cleanText(s: string): string {
-  return s
+  return stripWidgets(s)
     .replace(/[\s\S]*?/g, "")                   // 引用マーカー（私用領域文字で囲まれる）
     .replace(/cite(?:turn\d+(?:search|news|view|image)\d+)+/g, "")
     .replace(/entity\["[^"]*","([^"]*)"[^\]]*\]/g, "$1")      // entity["company","TSMC",...] → TSMC
@@ -80,14 +126,25 @@ export function cleanText(s: string): string {
     .trim();
 }
 
-async function main() {
-  const res = await fetch(args.url, {
-    headers: { "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0 Safari/537.36" },
-  });
+const UA = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0 Safari/537.36";
+
+function findRootChunk(html: string): string | undefined {
+  const chunks = [...html.matchAll(/streamController\.enqueue\("((?:[^"\\]|\\.)*)"\)/g)].map(m => JSON.parse(`"${m[1]}"`) as string);
+  return chunks.find(c => c.startsWith("["));
+}
+
+async function fetchShareHtml(url: string): Promise<string> {
+  const res = await fetch(url, { headers: { "user-agent": UA } });
   if (!res.ok) throw new Error(`fetch failed: ${res.status}`);
   const html = await res.text();
-  const chunks = [...html.matchAll(/streamController\.enqueue\("((?:[^"\\]|\\.)*)"\)/g)].map(m => JSON.parse(`"${m[1]}"`) as string);
-  const rootChunk = chunks.find(c => c.startsWith("["));
+  if (findRootChunk(html)) return html;
+  console.error("fetch returned a page without the SSR payload; retrying with curl");
+  return execFileSync("curl", ["-sL", "-A", UA, url], { encoding: "utf-8", maxBuffer: 64 * 1024 * 1024 });
+}
+
+async function main() {
+  const html = args.html ? await fs.readFile(args.html, "utf-8") : await fetchShareHtml(args.url);
+  const rootChunk = findRootChunk(html);
   if (!rootChunk) throw new Error("payload not found");
   const root = decodeTurbo(JSON.parse(rootChunk));
 

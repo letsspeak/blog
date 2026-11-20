@@ -186,6 +186,12 @@ npx tsx scripts/import-chatgpt-share.ts \
 本文は `::: user` / `::: assistant` ブロックで、ビルド時に発言者アイコン付きの吹き出しになります。
 元ログの Markdown は `/articles/YYYY-MM/<slug>.md` でも配信されます。
 
+- 長い脱線を省く場合は、その位置に `::: omitted` 〜 `:::` ブロックを置き、省略した範囲と理由を書きます（発言の書き換えはしない）
+- 取り込みは fetch で中身が取れないとき curl に切り替えます。ブラウザで保存した HTML を `--html saved.html` で渡すこともできます
+- ChatGPT の UI ウィジェット（出典マーカー、リンク、グラフなど）は素の Markdown に戻します。グラフは数値の表になります
+- `\[ ... \]` / `\( ... \)` の LaTeX は KaTeX で描画されます
+- 記事冒頭に元ツイートを見せたいときは `<figure class="tweet-card">` を使います（例: `articles/2026-11/2026-11-19-f-vs-x-contrast.md`）
+
 ## 🎨 デザインシステム
 
 - **フォント**: Inter（本文）+ JetBrains Mono（コード）

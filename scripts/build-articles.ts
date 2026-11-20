@@ -2,6 +2,7 @@ import { promises as fs } from "fs";
 import path from "path";
 import matter from "gray-matter";
 import { marked } from "marked";
+import katex from "katex";
 
 const SRC = "articles";
 const DST = "dist/articles";          // プロダクション用
@@ -60,11 +61,24 @@ function fixCjkStrong(src: string): string {
     .join("");
 }
 
-const md = (s: string) => marked.parse(fixCjkStrong(s), { async: false }) as string;
+/** `\[...\]`（別行）と `\(...\)`（行内）の LaTeX を KaTeX で HTML にする。コードブロック内は触らない */
+function renderMath(src: string): string {
+  const tex = (expr: string, displayMode: boolean) =>
+    katex.renderToString(expr.trim(), { displayMode, throwOnError: false, output: "html" });
+  return src.split(/(```[\s\S]*?```|~~~[\s\S]*?~~~|`[^`\n]*`)/).map((seg, i) => {
+    if (i % 2 === 1) return seg;
+    return seg
+      .replace(/\\\[([\s\S]+?)\\\]/g, (_m, e: string) => tex(e, true))
+      .replace(/\\\(([\s\S]+?)\\\)/g, (_m, e: string) => tex(e, false));
+  }).join("");
+}
+
+const md = (s: string) => marked.parse(renderMath(fixCjkStrong(s)), { async: false }) as string;
 const esc = (s: string) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/"/g, "&quot;");
 
 /**
  * `::: user` / `::: assistant` 〜 `:::` のブロックを発言者付きの HTML に変換する。
+ * `::: omitted` 〜 `:::` は「ここは省略した」という注記（省略した範囲と理由を書く）。
  * ブロック外は通常の Markdown として扱う。
  */
 function renderDialogue(content: string, speakers: Record<string, { name: string; avatar: string }>): string {
@@ -76,7 +90,9 @@ function renderDialogue(content: string, speakers: Record<string, { name: string
     const text = buf.join("\n").trim();
     buf = [];
     if (!text) return;
-    if (role) {
+    if (role === "omitted") {
+      out.push(`<aside class="dialogue-omitted">${md(text)}</aside>`);
+    } else if (role) {
       const sp = speakers[role] ?? { name: role, avatar: "" };
       out.push(
         `<section class="dialogue-turn dialogue-turn--${role}">` +
@@ -92,7 +108,7 @@ function renderDialogue(content: string, speakers: Record<string, { name: string
     }
   };
   for (const line of lines) {
-    const open = line.match(/^:::\s*(user|assistant)\s*$/);
+    const open = line.match(/^:::\s*(user|assistant|omitted)\s*$/);
     if (open) { flush(); role = open[1]; continue; }
     if (/^:::\s*$/.test(line) && role) { flush(); role = null; continue; }
     buf.push(line);

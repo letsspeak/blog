@@ -42,7 +42,9 @@ This is a static blog built as a React SPA with a custom Markdown processing pip
 
 ### Dialogue Articles (AI との対話ログ)
 - Front-matter `type: dialogue` plus `source` (share URL), `model`, `dialogue_date`. Optional `speakers` map overrides the default avatars/names (`user` = letsspeak, `assistant` = チャッピー, images in `public/images/characters/`)
-- Body: free Markdown (summary / 読みどころ) followed by turns written as `::: user` … `:::` / `::: assistant` … `:::`. `scripts/build-articles.ts` renders each turn as a speaker bubble
+- Body: free Markdown (summary / 読みどころ) followed by turns written as `::: user` … `:::` / `::: assistant` … `:::`. `scripts/build-articles.ts` renders each turn as a speaker bubble. A `::: omitted` … `:::` block marks a stretch of turns left out (state the range and the reason); it renders as a centered note
+- The importer flattens ChatGPT UI widgets (`<Cite/>`, `<Link/>`, `<Entity/>`, `<box>`, `<Chart/>` → table) and falls back to curl when fetch returns the shell page; `--html <file>` imports a saved page. LaTeX `\[…\]` / `\(…\)` is rendered with KaTeX at build time
+- An article can open with a tweet-style card (`<figure class="tweet-card">`, nested `.tweet-card--quoted` for a quoted post); styles live in `src/index.css` under `@layer utilities` because typography's `prose` rules override anything in `@layer components`
 - Policy: the turns are published verbatim. Only ChatGPT display tokens are stripped and third-party identifying details are anonymized; no summarizing or rewording of turns. The Markdown source is also copied to `dist/articles/.../slug.md` so the raw log stays readable by people and machines
 
 ### Tech Stack

@@ -5,6 +5,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
 import Post from "./pages/Post";
 import NotFound from "./pages/NotFound";
+import "katex/dist/katex.min.css";
 import "./index.css";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(

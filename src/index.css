@@ -204,6 +204,44 @@ layer(base);
     margin-top: 1.1em;
     margin-bottom: 0.35em;
   }
+  /* KaTeX の別行数式は狭い画面で横スクロール */
+  .prose .katex-display { overflow-x: auto; overflow-y: hidden; padding: 0.25rem 0; }
+  /* 記事冒頭に置くツイート風カード（引用ツイートは入れ子） */
+  .prose .tweet-card {
+    margin: 0 0 2rem;
+    padding: 1.25rem 1.5rem 1.1rem;
+    border: 1px solid var(--color-neutral-200);
+    border-radius: 1rem;
+    background: var(--color-white);
+    font-family: -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Noto Sans JP", sans-serif;
+    font-size: 0.95rem;
+    line-height: 1.7;
+  }
+  .prose .tweet-card--quoted {
+    margin: 1rem 0 0.9rem;
+    padding: 0.9rem 1.1rem 0.8rem;
+    font-size: 0.9rem;
+    background: var(--color-neutral-50);
+    border-radius: 0.8rem;
+  }
+  .tweet-card__head { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.75rem; }
+  .prose .tweet-card__avatar { width: 2.75rem; height: 2.75rem; border-radius: 9999px; object-fit: cover; margin: 0; flex: none; }
+  .prose .tweet-card--quoted .tweet-card__avatar { width: 1.6rem; height: 1.6rem; }
+  .tweet-card__avatar--anon { display: block; background: var(--color-neutral-300); }
+  .tweet-card__who { display: flex; flex-direction: column; gap: 0.1rem; line-height: 1.3; }
+  .tweet-card--quoted .tweet-card__who { flex-direction: row; gap: 0.6rem; align-items: baseline; }
+  .tweet-card__name { font-weight: 700; color: var(--color-neutral-900); }
+  .tweet-card__handle { font-size: 0.85em; color: var(--color-neutral-500); }
+  .prose .tweet-card__text { margin: 0; white-space: pre-line; color: var(--color-neutral-900); }
+  .tweet-card__date { margin-top: 0.75rem; font-size: 0.8em; color: var(--color-neutral-500); }
+  .tweet-card--quoted .tweet-card__date { margin-top: 0.6rem; }
+  .prose .tweet-card__date a { color: inherit; font-weight: 400; text-decoration: none; }
+  .prose .tweet-card__date a:hover { text-decoration: underline; }
+  @media (max-width: 640px) {
+    .prose .tweet-card { padding: 1rem 1.1rem 0.9rem; }
+    .prose .tweet-card--quoted { padding: 0.8rem 0.9rem 0.7rem; }
+    .tweet-card--quoted .tweet-card__who { flex-direction: column; gap: 0.1rem; align-items: flex-start; }
+  }
 }
 
 /* ---------------------------------------------------------------
@@ -267,6 +305,18 @@ layer(base);
     margin-bottom: 1rem;
   }
 
+  .dialogue-omitted {
+    margin: 1.75rem auto;
+    padding: 0.6rem 1rem;
+    max-width: 36rem;
+    text-align: center;
+    font-size: 0.85em;
+    color: var(--color-neutral-600);
+    border-top: 1px dashed var(--color-neutral-300);
+    border-bottom: 1px dashed var(--color-neutral-300);
+  }
+  .dialogue-omitted > :first-child { margin-top: 0; }
+  .dialogue-omitted > :last-child { margin-bottom: 0; }
   .dialogue-notice {
     font-size: 0.85rem;
     color: var(--color-neutral-600);
